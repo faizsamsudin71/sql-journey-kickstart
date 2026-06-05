@@ -1,0 +1,54 @@
+erDiagram
+    WELL ||--o{ WELL_PHASE : "contains"
+    RIG ||--o{ WELL : "drills"
+    PHASE ||--o{ WELL_PHASE : "contains"
+    WELL_PHASE ||--o| REPORT_JOURNAL : "has"
+    WELL_PHASE ||--o| DRILLING_PHASE_DETAILS : "has"
+    WELL_PHASE ||--o| COMPLETION_PHASE_DETAILS : "has"
+    REPORT_JOURNAL ||--o| DRILLING_PHASE_DETAILS : "includes"
+    REPORT_JOURNAL ||--o| COMPLETION_PHASE_DETAILS : "includes"
+
+    WELL {
+        uuid well_id PK
+        uuid rig_id FK
+        string well_name
+    }
+
+    RIG {
+        uuid rig_id PK
+        string rig_name
+    }
+
+    PHASE {
+        uuid phase_id PK
+        string phase_name
+    }
+
+    WELL_PHASE {
+        uuid well_phase_id PK
+        uuid well_id FK
+        uuid phase_id FK
+    }
+
+    REPORT_JOURNAL {
+        uuid report_journal_id PK
+        uuid well_phase_id FK
+        datetime report_datetime
+        string report_type   
+    }
+
+    DRILLING_PHASE_DETAILS {
+        uuid drilling_phase_id PK
+        uuid well_phase_id FK
+        uuid report_journal_id FK
+        float plan_cost
+        float actual_cost
+    }
+
+    COMPLETION_PHASE_DETAILS {
+        uuid completion_phase_id PK
+        uuid well_phase_id FK
+        uuid report_journal_id FK
+        float plan_cost
+        float actual_cost
+    }

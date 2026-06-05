@@ -1,0 +1,17 @@
+assessment_answers/
+
+# OS / IDE artefacts
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Node / NPM (if any)
+node_modules/
+package-lock.json
+npm-debug.log
+
+# Build artefacts (just in case)
+dist/
+build/

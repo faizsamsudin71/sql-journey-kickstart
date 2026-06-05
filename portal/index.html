@@ -1,0 +1,3107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Mastery: Relational Data Models & Analytical Queries</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Preconnect for faster Google Fonts loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts (loaded via HTML link tag for reliability) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&family=Great+Vibes&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+    <!-- Load FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">SQL</div>
+                <div class="brand-text">
+                    <h1>SQL Mastery</h1>
+                    <p>Training Portal</p>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a class="nav-item active" onclick="switchTab('dashboard')">
+                        <i class="fa-solid fa-gauge"></i> Dashboard & ERD
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('dbExplorer')">
+                        <i class="fa-solid fa-table"></i> Database Explorer
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('session1')">
+                        <i class="fa-solid fa-database"></i> Session 1: Basics
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('session2')">
+                        <i class="fa-solid fa-code-fork"></i> Session 2: Subqueries
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('session3')">
+                        <i class="fa-solid fa-chart-line"></i> Session 3: Windows
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('session4')">
+                        <i class="fa-solid fa-shield-halved"></i> Session 4: Integrity
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item" onclick="switchTab('assessment')">
+                        <i class="fa-solid fa-clipboard-question"></i> Assessment Quiz
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <p>June 2026 Training</p>
+                <p>AEM Office • Meeting Room 1</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            
+            <!-- ====== PAGE 1: DASHBOARD & ERD ====== -->
+            <section id="dashboard" class="page-panel active">
+                <header class="content-header">
+                    <span class="tag">Overview</span>
+                    <h2>SQL Mastery Course</h2>
+                    <p class="subtitle">From Relational Data Models to High-Performance Analytical Queries</p>
+                </header>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-circle-info" style="color: var(--primary)"></i> Course Introduction</h3>
+                    <p>Welcome to the interactive workbook for the SQL Mastery session. In this course, you will act as a database analyst working for an oil & gas company. You'll query operational data from active drilling wells, rigs, and daily reports to compile cost reports, ranking sheets, and data cleaning scripts.</p>
+                    <div class="alert note">
+                        <div class="alert-title"><i class="fa-solid fa-circle-exclamation"></i> Training Information</div>
+                        <div class="alert-content">
+                            <strong>Date:</strong> June 11, 2026 (Thursday) | <strong>Time:</strong> 9:00 AM – 5:00 PM<br>
+                            <strong>Venue:</strong> AEM Office – Meeting Room 1<br>
+                            <strong>Trainers:</strong> Adlina Ahmad & Faiz Samsudin
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-diagram-project" style="color: var(--accent)"></i> Relational Schema & ERD</h3>
+                    <p>The system tracks rigs, wells, phases, journals, and costs. Review the Entity-Relationship Diagram (ERD) below to understand how the tables link via foreign keys.</p>
+                    
+                    <div class="erd-section">
+                        <div class="erd-container">
+                            <pre class="mermaid" style="background:transparent; border:none; padding:0; margin:0;">
+erDiagram
+    WELL ||--o{ WELL_PHASE : "contains"
+    RIG ||--o{ WELL : "drills"
+    PHASE ||--o{ WELL_PHASE : "contains"
+    WELL_PHASE ||--o{ REPORT_JOURNAL : "has"
+    WELL_PHASE ||--o{ DRILLING_PHASE_DETAILS : "has"
+    WELL_PHASE ||--o{ COMPLETION_PHASE_DETAILS : "has"
+    REPORT_JOURNAL ||--o| DRILLING_PHASE_DETAILS : "details"
+    REPORT_JOURNAL ||--o| COMPLETION_PHASE_DETAILS : "details"
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-table" style="color: var(--secondary)"></i> Database Table Reference</h3>
+                    <p>Review types, primary keys (PK), and foreign keys (FK) implemented in <code>drilling_course.db</code>.</p>
+                    
+                    <div class="metadata-grid">
+                        <div class="metadata-card">
+                            <h4>RIG <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">rig_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">rig_name</span> <span class="column-type">TEXT</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>WELL <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">well_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">rig_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">well_name</span> <span class="column-type">TEXT</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>PHASE <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">phase_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">phase_name</span> <span class="column-type">TEXT</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>WELL_PHASE <span>Bridge</span></h4>
+                            <ul>
+                                <li><span class="column-name">well_phase_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">well_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">phase_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>REPORT_JOURNAL <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">report_journal_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">well_phase_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">report_datetime</span> <span class="column-type">DATETIME</span></li>
+                                <li><span class="column-name">report_type</span> <span class="column-type">TEXT</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>DRILLING_PHASE_DETAILS <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">drilling_phase_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">well_phase_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">report_journal_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">plan_cost</span> <span class="column-type">REAL</span></li>
+                                <li><span class="column-name">actual_cost</span> <span class="column-type">REAL</span></li>
+                            </ul>
+                        </div>
+                        <div class="metadata-card">
+                            <h4>COMPLETION_PHASE_DETAILS <span>Table</span></h4>
+                            <ul>
+                                <li><span class="column-name">completion_phase_id</span> <span class="column-type">INTEGER (PK)</span></li>
+                                <li><span class="column-name">well_phase_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">report_journal_id</span> <span class="column-type">INTEGER (FK)</span></li>
+                                <li><span class="column-name">plan_cost</span> <span class="column-type">REAL</span></li>
+                                <li><span class="column-name">actual_cost</span> <span class="column-type">REAL</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== PAGE 1B: DATABASE EXPLORER ====== -->
+            <section id="dbExplorer" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Database Inspection</span>
+                    <h2>Database Explorer</h2>
+                    <p class="subtitle">Quickly browse, search, and audit records inside drilling_course.db</p>
+                </header>
+
+                <div class="glass-card" style="padding: 1.5rem;">
+                    <p style="margin-bottom: 1rem;">Select a table below to inspect its columns and active datasets:</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" id="table-tabs-container">
+                        <button class="btn-secondary active-table-tab" onclick="selectExplorerTable('RIG')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">RIG</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('WELL')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">WELL</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('PHASE')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">PHASE</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('WELL_PHASE')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">WELL_PHASE</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('REPORT_JOURNAL')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">REPORT_JOURNAL</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('DRILLING_PHASE_DETAILS')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">DRILLING_PHASE_DETAILS</button>
+                        <button class="btn-secondary" onclick="selectExplorerTable('COMPLETION_PHASE_DETAILS')" style="font-family: var(--font-heading); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: 8px;">COMPLETION_PHASE_DETAILS</button>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                        <div>
+                            <h3 id="explorer-table-title" style="margin-bottom: 0.25rem; font-size: 1.3rem;">RIG Table</h3>
+                            <p id="explorer-table-desc" style="font-size: 0.85rem; margin-bottom: 0; color: var(--color-text-muted);">Table details</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <i class="fa-solid fa-magnifying-glass" style="color: var(--color-text-secondary); margin-right: -2rem; z-index: 1;"></i>
+                            <input type="text" id="explorer-search" placeholder="Search rows..." oninput="onExplorerSearch()" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem 0.5rem 0.5rem 2.25rem; color: white; outline: none; font-family: var(--font-sans); font-size: 0.9rem; width: 220px;">
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto; min-height: 250px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.5rem;">
+                        <table id="explorer-table-grid" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.875rem;">
+                            <!-- Dynamically generated headers and rows -->
+                        </table>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+                        <div id="explorer-pagination-info" style="font-size: 0.85rem; color: var(--color-text-secondary);">
+                            Showing 1 to 10 of 10 rows
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" id="explorer-prev-btn" onclick="prevExplorerPage()" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;"><i class="fa-solid fa-angle-left"></i> Prev</button>
+                            <button class="btn-secondary" id="explorer-next-btn" onclick="nextExplorerPage()" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">Next <i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ====== PAGE 2: SESSION 1 ====== -->
+            <section id="session1" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Session 1 • 9:15 AM - 10:45 AM</span>
+                    <h2>Data Modelling & SQL Basics</h2>
+                    <p class="subtitle">Primary Keys, Foreign Keys, Normalization & SQL Query Building Blocks</p>
+                </header>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> Theoretical Concepts</h3>
+                    <p>In database design, tables represent entities. Connections between tables represent business rules.</p>
+                    <ul>
+                        <li><strong>Primary Key (PK):</strong> A unique column that identifies each row. Can never be NULL.</li>
+                        <li><strong>Foreign Key (FK):</strong> A column in a table that references a primary key in another table. Enforces referential consistency.</li>
+                        <li><strong>Normalization (1NF, 2NF, 3NF):</strong> Minimizing data duplication by splitting tables logically. 
+                            <ul>
+                                <li>1NF: Single atomic values in columns, no duplicate groups.</li>
+                                <li>2NF: 1NF + all non-key columns must fully depend on the PK (eliminates partial dependency).</li>
+                                <li>3NF: 2NF + no columns can depend on other non-key columns (eliminates transitive dependency).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Types of JOINs:</strong>
+                            <ul>
+                                <li><strong>INNER JOIN</strong> (default <code>JOIN</code>): Returns records that have matching values in both tables.</li>
+                                <li><strong>LEFT JOIN:</strong> Returns all records from the left table, and matched records from the right. Unmatched rows return <code>NULL</code>.</li>
+                                <li><strong>RIGHT JOIN:</strong> Returns all records from the right table, and matched records from the left.</li>
+                                <li><strong>FULL OUTER JOIN:</strong> Returns all records when there is a match in either the left or right table.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-layer-group" style="color: var(--accent)"></i> SQL Query Building Blocks</h3>
+                    <p>Relational databases are queried using structured clauses. Understanding their logical execution order is key to writing bug-free SQL:</p>
+                    
+                    <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color); color: white;">
+                                    <th style="padding: 0.75rem;">Step</th>
+                                    <th style="padding: 0.75rem;">Clause</th>
+                                    <th style="padding: 0.75rem;">Description</th>
+                                    <th style="padding: 0.75rem;">Trainee Reinforcement Tip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">1</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">FROM & JOIN</code></td>
+                                    <td style="padding: 0.75rem;">Identifies source tables and joins rows based on matching key linkages.</td>
+                                    <td style="padding: 0.75rem;">Always verify your primary-to-foreign key relation in the <code>ON</code> block to prevent query multiplying.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">2</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">WHERE</code></td>
+                                    <td style="padding: 0.75rem;">Filters individual rows <em>before</em> any grouping or aggregates are computed.</td>
+                                    <td style="padding: 0.75rem;">Use standard operators like <code>=</code>, <code>LIKE</code>, <code>IN</code>, and <code>IS NULL</code>. You <strong>cannot</strong> use aggregate functions (like <code>SUM</code>) here.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">3</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">GROUP BY</code></td>
+                                    <td style="padding: 0.75rem;">Collapses multiple rows into grouped records based on matching column values.</td>
+                                    <td style="padding: 0.75rem;">Every non-aggregated column in your <code>SELECT</code> list <strong>must</strong> be included in the <code>GROUP BY</code> clause.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">4</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">HAVING</code></td>
+                                    <td style="padding: 0.75rem;">Filters grouped results after aggregation has taken place.</td>
+                                    <td style="padding: 0.75rem;">Used for conditional filters on aggregates (e.g., <code>HAVING COUNT(*) > 1</code>).</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">5</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">SELECT</code></td>
+                                    <td style="padding: 0.75rem;">Specifies exactly which columns or expressions to project in the final output.</td>
+                                    <td style="padding: 0.75rem;">Aliasing defined here (using <code>AS</code>) is <strong>not</strong> accessible in <code>WHERE</code> or <code>GROUP BY</code> clauses since they run earlier!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.75rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Query Examples for Reference</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+                        <!-- Example 1 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--primary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-filter"></i> Example 1: Filtering & Sorting (SELECT, WHERE, ORDER BY)</span>
+                                <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves well names and assigned rig IDs for wells starting with 'Alpha', sorted alphabetically:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_name, rig_id
+FROM WELL
+WHERE well_name LIKE 'Alpha%'
+ORDER BY well_name ASC;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S1_E1 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">rig_id</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S1_E1 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 2 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-link"></i> Example 2: Joining Multiple Tables (SELECT, JOIN & WHERE)</span>
+                                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Links reports to well metadata, filtering exclusively for daily progress logs (showing first 5 rows):</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT rj.report_journal_id, w.well_name, rj.report_type
+FROM REPORT_JOURNAL rj
+JOIN WELL_PHASE wp ON rj.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+WHERE rj.report_type = 'NOOP';</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S1_E2 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">report_journal_id</th>
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">report_type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">1</td>
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">9</td>
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">17</td>
+            <td style="padding: 0.5rem;">Charlie-1</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">25</td>
+            <td style="padding: 0.5rem;">Delta-X</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 0.5rem; text-align: center; color: var(--color-text-muted); font-style: italic;">... and 2 more rows</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S1_E2 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 3 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-calculator"></i> Example 3: Group Aggregation & Filters (SELECT, GROUP BY & HAVING)</span>
+                                <span style="font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Calculates total actual cost per well phase, displaying only groups exceeding $200,000:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_phase_id, SUM(actual_cost) AS total_actual_cost
+FROM DRILLING_PHASE_DETAILS
+GROUP BY well_phase_id
+HAVING SUM(actual_cost) > 200000;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S1_E3 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">total_actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">9</td>
+            <td style="padding: 0.5rem;">$205,707.88</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">$259,624.41</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">17</td>
+            <td style="padding: 0.5rem;">$245,355.77</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S1_E3 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-flask" style="color: var(--secondary)"></i> Hands-on Lab 1</h3>
+                    
+                    <div class="lab-step">
+                        <h4>Exercise 1.1: List All Wells and their Associated Rigs (SELECT & JOIN)</h4>
+                        <p>Write an SQL statement that joins the <code>WELL</code> table with the <code>RIG</code> table to display well name alongside its rig name.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s1_1')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s1_1" class="solution-content">
+<pre><code class="language-sql">SELECT w.well_name, r.rig_name
+FROM WELL w
+JOIN RIG r ON w.rig_id = r.rig_id;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 1.2: Filter Cost-Intensive Well Phases (SELECT, JOIN & WHERE)</h4>
+                        <p>Write a query that displays the well name, phase name, and the plan cost for drilling details (phases 1, 2, or 3) where the plan cost is greater than $100,000.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s1_2')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s1_2" class="solution-content">
+<pre><code class="language-sql">SELECT w.well_name, p.phase_name, dpd.plan_cost
+FROM WELL w
+JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+JOIN PHASE p ON wp.phase_id = p.phase_id
+JOIN DRILLING_PHASE_DETAILS dpd ON wp.well_phase_id = dpd.well_phase_id
+WHERE dpd.plan_cost > 100000
+ORDER BY dpd.plan_cost DESC;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 1.3: Count Reports per Well (SELECT, JOIN & GROUP BY)</h4>
+                        <p>Write an SQL statement that counts the total number of reports logged in <code>REPORT_JOURNAL</code> for each well. Display the well name and the total count, grouped by the well name.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s1_3')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s1_3" class="solution-content">
+<pre><code class="language-sql">SELECT w.well_name, COUNT(rj.report_journal_id) as total_reports
+FROM WELL w
+JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+JOIN REPORT_JOURNAL rj ON wp.well_phase_id = rj.well_phase_id
+GROUP BY w.well_name
+ORDER BY total_reports DESC;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 1.4: Find Rigs Drilled More than 1 Well (SELECT, JOIN, GROUP BY & HAVING)</h4>
+                        <p>Count the wells assigned to each rig, grouping by the rig name. Filter the output to show only rigs that have been assigned more than 1 well.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s1_4')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s1_4" class="solution-content">
+<pre><code class="language-sql">SELECT r.rig_name, COUNT(w.well_id) as well_count
+FROM RIG r
+JOIN WELL w ON r.rig_id = w.rig_id
+GROUP BY r.rig_name
+HAVING well_count > 1
+ORDER BY well_count DESC;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ====== PAGE 3: SESSION 2 ====== -->
+<section id="session2" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Session 2 • 11:00 AM - 12:30 PM</span>
+                    <h2>Querying Data Using Relationships</h2>
+                    <p class="subtitle">Unlocking Subqueries, Common Table Expressions (CTEs), and Derived Tables</p>
+                </header>
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> Session 2 Concepts</h3>
+                    <p style="margin-bottom: 1.25rem;">When query complexity grows, using simple joins becomes insufficient. SQL provides tools to structure nested datasets, optimize aggregations, and reuse temporary results.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.75rem;">
+                        <div class="alert note" style="margin: 0; display: flex; flex-direction: column; height: 100%;">
+                            <div class="alert-title"><i class="fa-solid fa-arrow-down-short-wide"></i> Subqueries</div>
+                            <div class="alert-content" style="font-size: 0.85rem; line-height: 1.4;">
+                                A query nested inside another query. Can be <strong>Scalar</strong> (returns 1 value), <strong>Multi-row</strong> (returns a column list for <code>IN</code>), or <strong>Correlated</strong> (references the outer query).
+                            </div>
+                        </div>
+                        <div class="alert tip" style="margin: 0; display: flex; flex-direction: column; height: 100%; border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.05);">
+                            <div class="alert-title" style="color: var(--secondary);"><i class="fa-solid fa-arrows-spin"></i> Derived Tables</div>
+                            <div class="alert-content" style="font-size: 0.85rem; line-height: 1.4; color: var(--color-text-secondary);">
+                                A subquery nested inside the <code>FROM</code> clause that acts as a temporary, query-scoped table. Every derived table <strong>must</strong> be assigned an alias in SQL.
+                            </div>
+                        </div>
+                        <div class="alert note" style="margin: 0; display: flex; flex-direction: column; height: 100%;">
+                            <div class="alert-title"><i class="fa-solid fa-table-list"></i> CTEs (Common Table Expressions)</div>
+                            <div class="alert-content" style="font-size: 0.85rem; line-height: 1.4;">
+                                Defined using the <code>WITH</code> keyword. CTEs construct a temporary, named result set that increases query readability and can be referenced multiple times sequentially.
+                            </div>
+                        </div>
+                        <div class="alert tip" style="margin: 0; display: flex; flex-direction: column; height: 100%; border-color: rgba(139, 92, 246, 0.2); background: rgba(139, 92, 246, 0.05);">
+                            <div class="alert-title" style="color: var(--accent);"><i class="fa-solid fa-database"></i> Materialized Views</div>
+                            <div class="alert-content" style="font-size: 0.85rem; line-height: 1.4; color: var(--color-text-secondary);">
+                                A query cache physically stored on disk as a table for high performance. Must be refreshed when underlying data changes (can be emulated via <code>CREATE TABLE AS</code>).
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 1.75rem; margin-bottom: 0.5rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Traditional Subqueries vs. CTEs Comparison</h4>
+                    <p style="font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-text-secondary);">Here is how the same operational question—finding wells whose total actual cost exceeds the database average—is solved using both methods. Notice how the subqueries in the <code>FROM</code> clause on the left act as <strong>Derived Tables</strong> (aliased as <code>WellSummaries</code> and <code>AverageSub</code>):</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem;">
+                            <h5 style="color: var(--secondary); margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-folder-open"></i> Traditional Nested Subquery Approach</h5>
+                            <p style="font-size: 0.8rem; margin-bottom: 0.75rem; color: var(--color-text-muted);">Logic is nested "inside-out". Harder to read and maintain due to redundant code groupings.</p>
+                            <pre style="margin: 0; padding: 0.75rem; background: #060910; font-size: 0.8rem; border-radius: 6px;"><code class="language-sql">SELECT well_name, total_actual_cost
+FROM (
+    SELECT w.well_name, SUM(dpd.actual_cost) AS total_actual_cost
+    FROM WELL w
+    JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+    JOIN DRILLING_PHASE_DETAILS dpd ON wp.well_phase_id = dpd.well_phase_id
+    GROUP BY w.well_name
+) AS WellSummaries
+WHERE total_actual_cost > (
+    SELECT AVG(total_cost)
+    FROM (
+        SELECT SUM(dpd2.actual_cost) AS total_cost
+        FROM WELL_PHASE wp2
+        JOIN DRILLING_PHASE_DETAILS dpd2 ON wp2.well_phase_id = dpd2.well_phase_id
+        GROUP BY wp2.well_id
+    ) AS AverageSub
+);</code></pre>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem;">
+                            <h5 style="color: var(--primary); margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-shuffle"></i> Common Table Expression (CTE) Approach</h5>
+                            <p style="font-size: 0.8rem; margin-bottom: 0.75rem; color: var(--color-text-muted);">Sequential, modular logic defined using <code>WITH</code>. Highly readable, clean, and reusable.</p>
+                            <pre style="margin: 0; padding: 0.75rem; background: #060910; font-size: 0.8rem; border-radius: 6px;"><code class="language-sql">WITH WellCosts AS (
+    SELECT w.well_name, SUM(dpd.actual_cost) AS total_actual_cost
+    FROM WELL w
+    JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+    JOIN DRILLING_PHASE_DETAILS dpd ON wp.well_phase_id = dpd.well_phase_id
+    GROUP BY w.well_name
+),
+AverageWellCost AS (
+    SELECT AVG(total_actual_cost) AS avg_cost
+    FROM WellCosts
+)
+SELECT wc.well_name, wc.total_actual_cost
+FROM WellCosts wc
+CROSS JOIN AverageWellCost awc
+WHERE wc.total_actual_cost > awc.avg_cost;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.75rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Query Examples for Reference</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+                        <!-- Example 1 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--primary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-arrow-down-short-wide"></i> Example 1: Subqueries (Scalar & Correlated)</span>
+                                <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                                <!-- Part A -->
+                                <div>
+                                    <h5 style="color: white; margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 600;">1A: Scalar Subquery (SELECT / WHERE)</h5>
+                                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves drilling details for phases where the actual cost is higher than the average actual cost across all drilling phases:</p>
+                                    <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT drilling_phase_id, well_phase_id, actual_cost
+FROM DRILLING_PHASE_DETAILS
+WHERE actual_cost > <mark style="background-color: rgba(234, 179, 8, 0.3); color: white; border-radius: 3px; padding: 0 4px;">(SELECT AVG(actual_cost) FROM DRILLING_PHASE_DETAILS)</mark>
+ORDER BY actual_cost DESC;</code></pre>
+                                    
+                                    <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                        <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                            <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                            <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                        </summary>
+                                        <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                            <!-- BEGIN_RESULT_S2_E1A -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">drilling_phase_id</th>
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">12</td>
+            <td style="padding: 0.5rem;">17</td>
+            <td style="padding: 0.5rem;">$164,457.56</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">4</td>
+            <td style="padding: 0.5rem;">5</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">9</td>
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">$133,150.16</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">10</td>
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">$126,474.25</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">999</td>
+            <td style="padding: 0.5rem;">$120,000.00</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 0.5rem; text-align: center; color: var(--color-text-muted); font-style: italic;">... and 1 more rows</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S2_E1A -->
+                                        </div>
+                                    </details>
+                                </div>
+
+                                <!-- Part B -->
+                                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem;">
+                                    <h5 style="color: white; margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 600;">1B: Correlated Subquery (WHERE)</h5>
+                                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves drilling phase details where the actual cost is greater than the average actual cost for its specific well phase:</p>
+                                    <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT dpd1.drilling_phase_id, dpd1.well_phase_id, dpd1.actual_cost
+FROM DRILLING_PHASE_DETAILS dpd1
+WHERE dpd1.actual_cost > (
+    SELECT AVG(dpd2.actual_cost) 
+    FROM DRILLING_PHASE_DETAILS dpd2 
+    WHERE dpd2.well_phase_id = dpd1.well_phase_id
+)
+ORDER BY dpd1.well_phase_id, dpd1.actual_cost DESC;</code></pre>
+                                    
+                                    <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                        <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                            <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                            <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                        </summary>
+                                        <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                            <!-- BEGIN_RESULT_S2_E1B -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">drilling_phase_id</th>
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">2</td>
+            <td style="padding: 0.5rem;">1</td>
+            <td style="padding: 0.5rem;">$73,023.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">7</td>
+            <td style="padding: 0.5rem;">9</td>
+            <td style="padding: 0.5rem;">$108,099.88</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">9</td>
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">$133,150.16</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">12</td>
+            <td style="padding: 0.5rem;">17</td>
+            <td style="padding: 0.5rem;">$164,457.56</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S2_E1B -->
+                                        </div>
+                                    </details>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- Example 2 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-arrows-spin"></i> Example 2: Derived Tables (Subquery in the FROM Clause)</span>
+                                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves rig names and their count of assigned wells by joining a derived table subquery (aliased as <code>s</code>):</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT r.rig_name, s.total_wells
+FROM RIG r
+JOIN <mark style="background-color: rgba(234, 179, 8, 0.3); color: white; border-radius: 3px; padding: 0 4px;">(
+    SELECT rig_id, COUNT(well_id) as total_wells
+    FROM WELL
+    GROUP BY rig_id
+) AS s</mark> ON r.rig_id = s.rig_id
+ORDER BY s.total_wells DESC;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S2_E2 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">rig_name</th>
+            <th style="padding: 0.5rem;">total_wells</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">3</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">3</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepsea Aberdeen</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S2_E2 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 3 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-table-list"></i> Example 3: Common Table Expressions (CTEs)</span>
+                                <span style="font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Unions the costs from drilling and completion phases, then summarizes the total actual cost per well, joining rig details:</p>
+                                    <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">WITH CombinedCosts AS (
+    SELECT well_phase_id, actual_cost FROM DRILLING_PHASE_DETAILS
+    UNION ALL
+    SELECT well_phase_id, actual_cost FROM COMPLETION_PHASE_DETAILS
+)
+SELECT w.well_name, r.rig_name, ROUND(SUM(cc.actual_cost), 2) as total_actual_cost
+FROM CombinedCosts cc
+JOIN WELL_PHASE wp ON cc.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+JOIN RIG r ON w.rig_id = r.rig_id
+GROUP BY w.well_name, r.rig_name
+ORDER BY total_actual_cost DESC;</code></pre>
+                                    
+                                    <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                        <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                            <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                            <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                        </summary>
+                                        <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                            <!-- BEGIN_RESULT_S2_E3 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">rig_name</th>
+            <th style="padding: 0.5rem;">total_actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Delta-X</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$499,394.06</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Echo-99</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$457,541.07</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Charlie-1</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$341,354.61</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">$289,394.76</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">Deepsea Aberdeen</td>
+            <td style="padding: 0.5rem;">$286,094.38</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S2_E3 -->
+                                        </div>
+                                    </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 4 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: #ec4899; outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-bolt"></i> Example 4: Materialized View Emulation (Physical Query Cache)</span>
+                                <span style="font-size: 0.75rem; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">For complex datasets, we can cache values physically in a table to bypass on-the-fly calculations. <em>Note: SQLite does not support native Materialized Views.</em> Here is the actual standard SQL syntax for reference, alongside the SQLite emulation:</p>
+                                    <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">-- Standard SQL (Not supported in SQLite)
+/*
+CREATE MATERIALIZED VIEW MV_WELL_COST_SUMMARY AS
+SELECT w.well_name, r.rig_name, ROUND(SUM(actual_cost), 2) as total_actual_cost
+FROM DRILLING_PHASE_DETAILS dpd
+JOIN WELL_PHASE wp ON dpd.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+JOIN RIG r ON w.rig_id = r.rig_id
+GROUP BY w.well_name, r.rig_name;
+*/
+
+-- Create emulated Materialized View in SQLite
+CREATE TABLE IF NOT EXISTS MV_WELL_COST_SUMMARY AS
+SELECT w.well_name, r.rig_name, ROUND(SUM(actual_cost), 2) as total_actual_cost
+FROM DRILLING_PHASE_DETAILS dpd
+JOIN WELL_PHASE wp ON dpd.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+JOIN RIG r ON w.rig_id = r.rig_id
+GROUP BY w.well_name, r.rig_name;
+
+-- Query the emulated Materialized View
+SELECT * FROM MV_WELL_COST_SUMMARY
+ORDER BY total_actual_cost DESC;</code></pre>
+                                    
+                                    <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                        <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                            <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                            <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                        </summary>
+                                        <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                            <!-- BEGIN_RESULT_S2_E4 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">rig_name</th>
+            <th style="padding: 0.5rem;">total_actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Delta-X</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$259,624.41</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Echo-99</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$245,355.77</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Charlie-1</td>
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">$205,707.88</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">$143,830.09</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">Deepsea Aberdeen</td>
+            <td style="padding: 0.5rem;">$63,853.61</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S2_E4 -->
+                                        </div>
+                                    </details>
+                                    <div class="alert note" style="margin-top: 1rem; margin-bottom: 0;">
+                                        <div class="alert-title"><i class="fa-solid fa-circle-exclamation"></i> Materialized View Warning</div>
+                                        <div class="alert-content">
+                                            Since materialized views store physical copies of values, they become out-of-sync when underlying tables are edited. They must be explicitly <strong>refreshed</strong> to ensure query accuracy.
+                                        </div>
+                                    </div>
+                                </div>
+                        </details>        
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-flask" style="color: var(--secondary)"></i> Hands-on Lab 2</h3>
+
+                    <div class="lab-step">
+                        <h4>Exercise 2.1: Find Wells without Any Logged Reports</h4>
+                        <p>Retrieve the names of all wells that do not have a single matching record in the <code>REPORT_JOURNAL</code> table, using a subquery.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s2_1')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s2_1" class="solution-content">
+<pre><code class="language-sql">SELECT well_name 
+FROM WELL 
+WHERE well_id NOT IN (
+    SELECT DISTINCT wp.well_id 
+    FROM WELL_PHASE wp
+    JOIN REPORT_JOURNAL rj ON wp.well_phase_id = rj.well_phase_id
+);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 2.2: Phase Expenditure Breakdown (Using CTEs)</h4>
+                        <p>Write a query using a CTE that unions the <code>DRILLING_PHASE_DETAILS</code> and <code>COMPLETION_PHASE_DETAILS</code> costs, then aggregates the plan vs. actual spending per phase name.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s2_2')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s2_2" class="solution-content">
+<pre><code class="language-sql">WITH CombinedCosts AS (
+    SELECT well_phase_id, plan_cost, actual_cost FROM DRILLING_PHASE_DETAILS
+    UNION ALL
+    SELECT well_phase_id, plan_cost, actual_cost FROM COMPLETION_PHASE_DETAILS
+)
+SELECT p.phase_name, 
+       ROUND(SUM(c.plan_cost), 2) as total_plan,
+       ROUND(SUM(c.actual_cost), 2) as total_actual,
+       ROUND(SUM(c.actual_cost - c.plan_cost), 2) as variance
+FROM WELL_PHASE wp
+JOIN PHASE p ON wp.phase_id = p.phase_id
+JOIN CombinedCosts c ON wp.well_phase_id = c.well_phase_id
+GROUP BY p.phase_name
+ORDER BY variance DESC;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 2.3: Cross Join with a Derived Table</h4>
+                        <p>Find all drilling phases where the actual cost is higher than the average actual cost of all drilling phases, by joining a derived table that calculates the average.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s2_3')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s2_3" class="solution-content">
+<pre><code class="language-sql">SELECT d.well_phase_id, d.actual_cost, ROUND(avg_t.avg_cost, 2) as avg_cost
+FROM DRILLING_PHASE_DETAILS d
+CROSS JOIN (
+    SELECT AVG(actual_cost) as avg_cost
+    FROM DRILLING_PHASE_DETAILS
+) avg_t
+WHERE d.actual_cost > avg_t.avg_cost;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 2.4: Materialized Views Emulation</h4>
+                        <p>Write the standard SQL syntax to create a materialized view named <code>MV_WELL_REPORTS</code> that summarizes the total number of reports logged per well. Then, emulate it in SQLite since native materialized views are not supported, and query the new view sorting by the most reports.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s2_4')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s2_4" class="solution-content">
+<pre><code class="language-sql">-- Standard SQL (Not supported in SQLite)
+/*
+CREATE MATERIALIZED VIEW MV_WELL_REPORTS AS
+SELECT w.well_name, COUNT(rj.report_journal_id) as total_reports
+FROM WELL w
+JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+JOIN REPORT_JOURNAL rj ON wp.well_phase_id = rj.well_phase_id
+GROUP BY w.well_name;
+*/
+
+-- SQLite Emulation
+CREATE TABLE IF NOT EXISTS MV_WELL_REPORTS AS
+SELECT w.well_name, COUNT(rj.report_journal_id) as total_reports
+FROM WELL w
+JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+JOIN REPORT_JOURNAL rj ON wp.well_phase_id = rj.well_phase_id
+GROUP BY w.well_name;
+
+SELECT * FROM MV_WELL_REPORTS ORDER BY total_reports DESC;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ====== PAGE 4: SESSION 3 ====== -->
+            <section id="session3" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Session 3 • 1:30 PM - 3:00 PM</span>
+                    <h2>Aggregation & Analytical SQL</h2>
+                    <p class="subtitle">Mastering SQL Window Functions, Partitions, and Running Totals</p>
+                </header>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> Window Functions</h3>
+                    <p>Unlike regular <code>GROUP BY</code> functions which collapse multiple rows into one row, window functions perform calculations across a set of rows while keeping each individual row in the output.</p>
+                    
+                    <div class="alert tip">
+                        <div class="alert-title"><i class="fa-solid fa-key"></i> Key Functions</div>
+                        <div class="alert-content">
+                            <strong>ROW_NUMBER():</strong> Assigns a unique sequential number to rows within a partition.<br>
+                            <strong>RANK():</strong> Assigns rank with gaps if duplicates exist.<br>
+                            <strong>DENSE_RANK():</strong> Assigns rank without gaps for duplicate values.<br>
+                            <strong>SUM() OVER:</strong> Running total calculation across a partition ordered by date.
+                        </div>
+                    </div>
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.75rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Query Examples for Reference</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+                        <!-- Example 1 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--primary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-list-ol"></i> Example 1: Sequential Row Numbering (ROW_NUMBER)</span>
+                                <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Indexes all wells drilled by each rig, starting a new sequence for each individual rig:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT r.rig_name, w.well_name,
+       ROW_NUMBER() OVER (PARTITION BY r.rig_id ORDER BY w.well_name) as well_seq
+FROM RIG r
+JOIN WELL w ON r.rig_id = w.rig_id
+ORDER BY r.rig_name, w.well_name;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S3_E1 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">rig_name</th>
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">well_seq</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepsea Aberdeen</td>
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">Charlie-1</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">Delta-X</td>
+            <td style="padding: 0.5rem;">2</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Deepwater Horizon</td>
+            <td style="padding: 0.5rem;">Echo-99</td>
+            <td style="padding: 0.5rem;">3</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">1</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">2</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Ocean Valor</td>
+            <td style="padding: 0.5rem;">Ghost-1</td>
+            <td style="padding: 0.5rem;">3</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S3_E1 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 2 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-ranking-star"></i> Example 2: Ranking (RANK vs DENSE_RANK)</span>
+                                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Ranks wells by their total actual drilling costs. Note how RANK leaves gaps if there are ties, while DENSE_RANK does not:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">WITH WellCosts AS (
+    SELECT wp.well_id, SUM(dpd.actual_cost) as total_cost
+    FROM WELL_PHASE wp
+    JOIN DRILLING_PHASE_DETAILS dpd ON wp.well_phase_id = dpd.well_phase_id
+    GROUP BY wp.well_id
+)
+SELECT w.well_name, ROUND(wc.total_cost, 2) as total_cost,
+       RANK() OVER (ORDER BY wc.total_cost DESC) as cost_rank,
+       DENSE_RANK() OVER (ORDER BY wc.total_cost DESC) as cost_dense_rank
+FROM WellCosts wc
+JOIN WELL w ON wc.well_id = w.well_id;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S3_E2 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">total_cost</th>
+            <th style="padding: 0.5rem;">cost_rank</th>
+            <th style="padding: 0.5rem;">cost_dense_rank</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Delta-X</td>
+            <td style="padding: 0.5rem;">$259,624.41</td>
+            <td style="padding: 0.5rem;">$1.00</td>
+            <td style="padding: 0.5rem;">$1.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Echo-99</td>
+            <td style="padding: 0.5rem;">$245,355.77</td>
+            <td style="padding: 0.5rem;">$2.00</td>
+            <td style="padding: 0.5rem;">$2.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Charlie-1</td>
+            <td style="padding: 0.5rem;">$205,707.88</td>
+            <td style="padding: 0.5rem;">$3.00</td>
+            <td style="padding: 0.5rem;">$3.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">$143,830.09</td>
+            <td style="padding: 0.5rem;">$4.00</td>
+            <td style="padding: 0.5rem;">$4.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+            <td style="padding: 0.5rem;">$5.00</td>
+            <td style="padding: 0.5rem;">$5.00</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">$63,853.61</td>
+            <td style="padding: 0.5rem;">$6.00</td>
+            <td style="padding: 0.5rem;">$6.00</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S3_E2 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 3 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-chart-line"></i> Example 3: Cumulative Running Totals (SUM OVER)</span>
+                                <span style="font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Calculates the cumulative running total of actual costs for each well over consecutive report dates:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT w.well_name, rj.report_datetime, dpd.actual_cost,
+       ROUND(SUM(dpd.actual_cost) OVER (
+           PARTITION BY w.well_id 
+           ORDER BY rj.report_datetime
+       ), 2) as cumulative_cost
+FROM DRILLING_PHASE_DETAILS dpd
+JOIN REPORT_JOURNAL rj ON dpd.report_journal_id = rj.report_journal_id
+JOIN WELL_PHASE wp ON dpd.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+ORDER BY w.well_name, rj.report_datetime;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S3_E3 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_name</th>
+            <th style="padding: 0.5rem;">report_datetime</th>
+            <th style="padding: 0.5rem;">actual_cost</th>
+            <th style="padding: 0.5rem;">cumulative_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">2025-04-08 00:00:00</td>
+            <td style="padding: 0.5rem;">$70,807.09</td>
+            <td style="padding: 0.5rem;">$70,807.09</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-1</td>
+            <td style="padding: 0.5rem;">2025-04-09 00:00:00</td>
+            <td style="padding: 0.5rem;">$73,023.00</td>
+            <td style="padding: 0.5rem;">$143,830.09</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">2025-02-07 00:00:00</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Alpha-2</td>
+            <td style="padding: 0.5rem;">2025-02-08 00:00:00</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+            <td style="padding: 0.5rem;">$135,290.51</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">Bravo-1</td>
+            <td style="padding: 0.5rem;">2025-02-04 00:00:00</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding: 0.5rem; text-align: center; color: var(--color-text-muted); font-style: italic;">... and 7 more rows</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S3_E3 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-flask" style="color: var(--secondary)"></i> Hands-on Lab 3</h3>
+
+                    <div class="lab-step">
+                        <h4>Exercise 3.1: Sequential Report Indexing per Well</h4>
+                        <p>Write an SQL query displaying well name, report timestamp, report type, and a sequential row number (re-starting at 1 for each well) ordered by report date.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s3_1')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s3_1" class="solution-content">
+<pre><code class="language-sql">SELECT w.well_name, rj.report_datetime, rj.report_type,
+       ROW_NUMBER() OVER (PARTITION BY w.well_id ORDER BY rj.report_datetime) as report_seq
+FROM REPORT_JOURNAL rj
+JOIN WELL_PHASE wp ON rj.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+ORDER BY w.well_name, rj.report_datetime;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 3.2: Cumulative Cost Tracking per Well Phase</h4>
+                        <p>Compute the running total of actual cost for each daily report in a specific well phase, ordered by date.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s3_2')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s3_2" class="solution-content">
+<pre><code class="language-sql">SELECT w.well_name, p.phase_name, rj.report_datetime, dpd.actual_cost,
+       ROUND(SUM(dpd.actual_cost) OVER (
+           PARTITION BY wp.well_phase_id 
+           ORDER BY rj.report_datetime
+       ), 2) as running_total_cost
+FROM DRILLING_PHASE_DETAILS dpd
+JOIN REPORT_JOURNAL rj ON dpd.report_journal_id = rj.report_journal_id
+JOIN WELL_PHASE wp ON dpd.well_phase_id = wp.well_phase_id
+JOIN WELL w ON wp.well_id = w.well_id
+JOIN PHASE p ON wp.phase_id = p.phase_id
+ORDER BY w.well_name, p.phase_name, rj.report_datetime;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ====== PAGE 5: SESSION 4 ====== -->
+            <section id="session4" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Session 4 • 3:15 PM - 4:15 PM</span>
+                    <h2>Data Integrity & Validation</h2>
+                    <p class="subtitle">Auditing the Database for Duplicates, Orphan Records, and NULL Fields</p>
+                </header>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> Database Auditing & Views</h3>
+                    <p>Data imported from the field is often dirty. Relational database rules can sometimes be violated or bypassed during bulk loads, resulting in anomalies.</p>
+                    <ul>
+                        <li><strong>Duplicates:</strong> Identical entries logged multiple times (e.g. repeated daily reports).</li>
+                        <li><strong>Orphan Records:</strong> Child records pointing to parent IDs that no longer exist (violates FK rules). We use a <strong>LEFT JOIN</strong> to find these by returning all records on the left, and filtering for <code>NULL</code> on the right side.</li>
+                        <li><strong>Views:</strong> Stored SELECT statements that act as virtual tables, masking complex cleanup queries from downstream users.</li>
+                    </ul>
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.75rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Query Examples for Reference</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+                        <!-- Example 1 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--primary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-copy"></i> Example 1: Identifying Duplicates (GROUP BY & HAVING)</span>
+                                <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Identifies duplicate records in REPORT_JOURNAL where multiple entries share the exact same well phase, datetime, and report type:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_phase_id, report_datetime, report_type, COUNT(*) as occurrence_count
+FROM REPORT_JOURNAL
+GROUP BY well_phase_id, report_datetime, report_type
+HAVING COUNT(*) &gt; 1;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S4_E1 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">report_datetime</th>
+            <th style="padding: 0.5rem;">report_type</th>
+            <th style="padding: 0.5rem;">occurrence_count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">1</td>
+            <td style="padding: 0.5rem;">2025-04-08 00:00:00</td>
+            <td style="padding: 0.5rem;">NOOP</td>
+            <td style="padding: 0.5rem;">2</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">1</td>
+            <td style="padding: 0.5rem;">2025-04-09 00:00:00</td>
+            <td style="padding: 0.5rem;">FWR</td>
+            <td style="padding: 0.5rem;">2</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">2</td>
+            <td style="padding: 0.5rem;">2025-03-19 00:00:00</td>
+            <td style="padding: 0.5rem;">NOOC</td>
+            <td style="padding: 0.5rem;">2</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S4_E1 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 2 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-link-slash"></i> Example 2: Finding Orphan Records (LEFT JOIN & IS NULL)</span>
+                                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Queries DRILLING_PHASE_DETAILS to locate entries referencing a report_journal_id that does not exist in the main parent table (REPORT_JOURNAL):</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT dpd.drilling_phase_id, dpd.well_phase_id, dpd.report_journal_id, dpd.actual_cost
+FROM DRILLING_PHASE_DETAILS dpd
+LEFT JOIN REPORT_JOURNAL rj ON dpd.report_journal_id = rj.report_journal_id
+WHERE rj.report_journal_id IS NULL;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S4_E2 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">drilling_phase_id</th>
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">report_journal_id</th>
+            <th style="padding: 0.5rem;">actual_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">13</td>
+            <td style="padding: 0.5rem;">999</td>
+            <td style="padding: 0.5rem;">9999</td>
+            <td style="padding: 0.5rem;">$120,000.00</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S4_E2 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+
+                        <!-- Example 3 -->
+                        <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-wand-magic-sparkles"></i> Example 3: Handling NULLs (COALESCE)</span>
+                                <span style="font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
+                            </summary>
+                            
+                            <div style="margin-top: 1rem;">
+                                <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves drilling costs, displaying resolved costs where missing actual costs default to the plan cost value:</p>
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT drilling_phase_id, well_phase_id, plan_cost, actual_cost,
+       COALESCE(actual_cost, plan_cost) as resolved_cost
+FROM DRILLING_PHASE_DETAILS
+WHERE actual_cost IS NULL
+LIMIT 5;</code></pre>
+                                
+                                <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
+                                    <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
+                                        <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
+                                        <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
+                                    </summary>
+                                    <div style="margin-top: 0.5rem; overflow-x: auto;">
+                                        <!-- BEGIN_RESULT_S4_E3 -->
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+    <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+            <th style="padding: 0.5rem;">drilling_phase_id</th>
+            <th style="padding: 0.5rem;">well_phase_id</th>
+            <th style="padding: 0.5rem;">plan_cost</th>
+            <th style="padding: 0.5rem;">actual_cost</th>
+            <th style="padding: 0.5rem;">resolved_cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">3</td>
+            <td style="padding: 0.5rem;">5</td>
+            <td style="padding: 0.5rem;">$148,522.15</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+            <td style="padding: 0.5rem;">$148,522.15</td>
+        </tr>
+        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem;">5</td>
+            <td style="padding: 0.5rem;">7</td>
+            <td style="padding: 0.5rem;">$120,182.03</td>
+            <td style="padding: 0.5rem; color: var(--color-text-muted); font-style: italic;">NULL</td>
+            <td style="padding: 0.5rem;">$120,182.03</td>
+        </tr>
+    </tbody>
+</table>
+<!-- END_RESULT_S4_E3 -->
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-flask" style="color: var(--secondary)"></i> Hands-on Lab 4</h3>
+
+                    <div class="lab-step">
+                        <h4>Exercise 4.1: Identify Duplicates in REPORT_JOURNAL</h4>
+                        <p>Locate reports in the journal sharing the exact same <code>well_phase_id</code>, <code>report_datetime</code>, and <code>report_type</code>.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s4_1')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s4_1" class="solution-content">
+<pre><code class="language-sql">SELECT well_phase_id, report_datetime, report_type, COUNT(*) as row_count
+FROM REPORT_JOURNAL
+GROUP BY well_phase_id, report_datetime, report_type
+HAVING COUNT(*) > 1;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 4.2: Find Orphan Records in Cost Details</h4>
+                        <p>Audit <code>DRILLING_PHASE_DETAILS</code> to find records that reference a <code>report_journal_id</code> which does not exist in the <code>REPORT_JOURNAL</code> table.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s4_2')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s4_2" class="solution-content">
+<pre><code class="language-sql">SELECT dpd.drilling_phase_id, dpd.well_phase_id, dpd.report_journal_id, dpd.actual_cost
+FROM DRILLING_PHASE_DETAILS dpd
+LEFT JOIN REPORT_JOURNAL rj ON dpd.report_journal_id = rj.report_journal_id
+WHERE rj.report_journal_id IS NULL;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-step" style="margin-top:2rem;">
+                        <h4>Exercise 4.3: Consolidate Costs (Replacing NULLs via View)</h4>
+                        <p>Write an SQL query that creates a virtual View replacing any NULL <code>actual_cost</code> with its corresponding <code>plan_cost</code>.</p>
+                        <div class="reveal-solution">
+                            <button class="solution-btn" onclick="toggleSolution('s4_3')">
+                                <i class="fa-solid fa-eye"></i> Show Solution SQL
+                            </button>
+                            <div id="s4_3" class="solution-content">
+<pre><code class="language-sql">CREATE VIEW IF NOT EXISTS V_CLEAN_WELL_COSTS AS
+SELECT drilling_phase_id, well_phase_id, plan_cost,
+       COALESCE(actual_cost, plan_cost) as finalized_cost
+FROM DRILLING_PHASE_DETAILS
+WHERE well_phase_id NOT IN (999);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ====== PAGE 6: ASSESSMENT ====== -->
+            <section id="assessment" class="page-panel">
+                <header class="content-header">
+                    <span class="tag">Knowledge Assessment</span>
+                    <h2>SQL Assessment Portal</h2>
+                    <p class="subtitle">Validate your understanding of database concepts and write real SQL queries</p>
+                </header>
+
+                <!-- PRACTICAL SQL CHALLENGES (Sole content) -->
+                <div id="practical-assessment-container">
+                    <div class="practical-layout">
+                        <!-- Left Panel: Sidebar Task List -->
+                        <div class="practical-sidebar">
+                            <h3>Coding Tasks</h3>
+                            <ul class="task-list">
+                                <li class="task-item active" id="task-item-1" onclick="selectPracticalTask(1)">
+                                    <div class="task-status pending" id="task-status-1"><i class="fa-regular fa-circle"></i></div>
+                                    <div class="task-info">
+                                        <span class="task-title">Task 1: Budget Overrun</span>
+                                        <span class="task-difficulty easy">Easy</span>
+                                    </div>
+                                </li>
+                                <li class="task-item" id="task-item-2" onclick="selectPracticalTask(2)">
+                                    <div class="task-status pending" id="task-status-2"><i class="fa-regular fa-circle"></i></div>
+                                    <div class="task-info">
+                                        <span class="task-title">Task 2: Cost Dashboard</span>
+                                        <span class="task-difficulty medium">Medium</span>
+                                    </div>
+                                </li>
+                                <li class="task-item" id="task-item-3" onclick="selectPracticalTask(3)">
+                                    <div class="task-status pending" id="task-status-3"><i class="fa-regular fa-circle"></i></div>
+                                    <div class="task-info">
+                                        <span class="task-title">Task 3: Rig Ranking</span>
+                                        <span class="task-difficulty hard">Hard</span>
+                                    </div>
+                                </li>
+                                <li class="task-item" id="task-item-4" onclick="selectPracticalTask(4)">
+                                    <div class="task-status pending" id="task-status-4"><i class="fa-regular fa-circle"></i></div>
+                                    <div class="task-info">
+                                        <span class="task-title">Task 4: Running Costs</span>
+                                        <span class="task-difficulty hard">Hard</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <div class="practical-progress-summary">
+                                <p style="margin-bottom:0.5rem;">Tasks Cleared: <strong id="cleared-tasks-count">0 / 4</strong></p>
+                                <div class="progress-bar-container" style="width:100%; height:8px;">
+                                    <div class="progress-bar-fill" id="practical-progress-fill" style="width:0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Editor & Instructions -->
+                        <div class="practical-main">
+                            <!-- Task Details -->
+                            <div class="glass-card task-description-card">
+                                <h3 id="current-task-title">Task 1: The Comprehensive Cost Variance Report</h3>
+                                <p class="task-prompt" id="current-task-desc">Loading task description...</p>
+                                <div class="task-requirements">
+                                    <h4>Expected Columns:</h4>
+                                    <ul id="current-task-columns">
+                                        <!-- Dynamic columns list -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- SQL Editor -->
+                            <div class="glass-card editor-card">
+                                <div class="editor-header">
+                                    <span>SQL Console</span>
+                                    <button class="btn-text-only" onclick="resetEditorQuery()"><i class="fa-solid fa-arrow-rotate-left"></i> Reset Code</button>
+                                </div>
+                                <div class="editor-container">
+                                    <textarea id="sql-editor" placeholder="Write your SQL query here... (e.g. SELECT * FROM WELL)" spellcheck="false"></textarea>
+                                </div>
+                                <div class="editor-actions">
+                                    <button class="btn-secondary" onclick="runEditorQuery()">
+                                        <i class="fa-solid fa-play"></i> Run Query
+                                    </button>
+                                    <button class="btn-primary" onclick="submitEditorQuery()">
+                                        <i class="fa-solid fa-circle-check"></i> Submit & Validate
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Execution Outputs -->
+                            <div class="glass-card output-card">
+                                <h3>Query Output</h3>
+                                <div id="editor-feedback-box" class="quiz-feedback" style="display: none; margin-bottom: 1rem;">
+                                    <div class="alert-title" id="editor-feedback-title">Result</div>
+                                    <div class="alert-content" id="editor-feedback-text">Feedback details...</div>
+                                </div>
+                                <div class="output-table-container" id="query-output-container">
+                                    <p class="output-placeholder">Run your query to inspect the output table here...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CERTIFICATE OF COMPLETION CARD (HIDDEN BY DEFAULT) -->
+                <div class="glass-card" id="certificate-unlocked-card" style="display: none; margin-top: 2rem;">
+                    
+                    <div class="certificate-container">
+                        <!-- Company Logo & Gold Badge Header -->
+                        <div class="cert-header-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                            <!-- Company Logo (Displays if logo.png exists in portal/ folder) -->
+                            <div class="cert-logo-container" style="border: none; background: transparent; height: auto; min-width: auto; max-width: none; padding: 0; cursor: default; margin-bottom: 0.5rem; display: flex; justify-content: center; align-items: center;">
+                                <img src="logo.png" alt="" onerror="this.style.display='none';" style="max-height: 70px; max-width: 250px; object-fit: contain;" />
+                            </div>
+                            
+                            <!-- Gold Badge Emblem -->
+                            <div class="certificate-badge" id="cert-badge-element" style="margin-bottom: 0.5rem;">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                        </div>
+
+                        <h2>Certificate of Completion</h2>
+                        <p class="cert-subtitle">This certifies that</p>
+                        
+                        <div class="cert-input-wrapper">
+                            <input type="text" id="participant-name-input" placeholder="Type Your Full Name Here" oninput="updateCertificateName()">
+                        </div>
+                        
+                        <p class="cert-text">has successfully completed the comprehensive training course</p>
+                        <h3 class="cert-course-title">SQL Mastery: From Relational Data Models to Analytical Queries</h3>
+                        
+                        <p class="cert-date-text">Completed on <span id="cert-date-display">June 4, 2026</span></p>
+                        
+                        <div class="cert-signatures">
+                            <!-- Signatory 1 -->
+                            <div class="signature-line">
+                                <div class="signature-graphic-area" style="cursor: default;">
+                                    <img class="signature-img" src="signature1.png" alt="Signature" onerror="this.style.display='none'; document.getElementById('sig-handwritten-0').style.display='block';" style="display: block;" />
+                                    <span class="signature-handwritten" id="sig-handwritten-0" style="display: none;">Adlina Ahmad</span>
+                                </div>
+                                <div class="signature-underline-name">
+                                    <span class="signature-name" style="cursor: default;">Adlina Ahmad</span>
+                                </div>
+                                <span class="signature-title">SQL Trainer</span>
+                            </div>
+
+                            <!-- Signatory 2 -->
+                            <div class="signature-line">
+                                <div class="signature-graphic-area" style="cursor: default;">
+                                    <img class="signature-img" src="signature2.png" alt="Signature" onerror="this.style.display='none'; document.getElementById('sig-handwritten-1').style.display='block';" style="display: block;" />
+                                    <span class="signature-handwritten" id="sig-handwritten-1" style="display: none;">Faiz Samsudin</span>
+                                </div>
+                                <div class="signature-underline-name">
+                                    <span class="signature-name" style="cursor: default;">Faiz Samsudin</span>
+                                </div>
+                                <span class="signature-title">SQL Trainer</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-actions" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                        <button class="btn-primary" onclick="printCertificate()">
+                            <i class="fa-solid fa-print"></i> Print / Save as PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Load sql.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <!-- Load Mermaid JS from ESM module to build the ERD on load -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                background: '#0b0f19',
+                primaryColor: '#3b82f6',
+                primaryTextColor: '#fff',
+                lineColor: '#6b7280',
+                fontSize: '14px'
+            }
+        });
+    </script>
+
+    <!-- Quiz logic and Tab Switch logic -->
+    <script>
+        // In-memory SQLite DB instance variables
+        let sqlDb = null;
+        let isSqlDbReady = false;
+
+        // Initialize SQLite WASM on page load
+        async function initSqljsDatabase() {
+            try {
+                const SQL = await initSqlJs({
+                    locateFile: filename => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${filename}`
+                });
+                
+                sqlDb = new SQL.Database();
+                createAndPopulateTables();
+                isSqlDbReady = true;
+                console.log("In-memory SQLite database populated successfully from dbData!");
+            } catch (err) {
+                console.error("Failed to initialize SQLite database:", err);
+            }
+        }
+
+        // Dynamically build and insert mock data records into in-memory SQLite
+        function createAndPopulateTables() {
+            if (!sqlDb) return;
+            
+            const schemas = {
+                "RIG": `
+                    CREATE TABLE RIG (
+                        rig_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        rig_name TEXT NOT NULL
+                    );
+                `,
+                "WELL": `
+                    CREATE TABLE WELL (
+                        well_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        rig_id INTEGER,
+                        well_name TEXT NOT NULL,
+                        FOREIGN KEY (rig_id) REFERENCES RIG(rig_id)
+                    );
+                `,
+                "PHASE": `
+                    CREATE TABLE PHASE (
+                        phase_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        phase_name TEXT NOT NULL
+                    );
+                `,
+                "WELL_PHASE": `
+                    CREATE TABLE WELL_PHASE (
+                        well_phase_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        well_id INTEGER,
+                        phase_id INTEGER,
+                        FOREIGN KEY (well_id) REFERENCES WELL(well_id),
+                        FOREIGN KEY (phase_id) REFERENCES PHASE(phase_id)
+                    );
+                `,
+                "REPORT_JOURNAL": `
+                    CREATE TABLE REPORT_JOURNAL (
+                        report_journal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        well_phase_id INTEGER,
+                        report_datetime DATETIME,
+                        report_type TEXT,
+                        FOREIGN KEY (well_phase_id) REFERENCES WELL_PHASE(well_phase_id)
+                    );
+                `,
+                "DRILLING_PHASE_DETAILS": `
+                    CREATE TABLE DRILLING_PHASE_DETAILS (
+                        drilling_phase_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        well_phase_id INTEGER,
+                        report_journal_id INTEGER,
+                        plan_cost REAL,
+                        actual_cost REAL,
+                        FOREIGN KEY (well_phase_id) REFERENCES WELL_PHASE(well_phase_id),
+                        FOREIGN KEY (report_journal_id) REFERENCES REPORT_JOURNAL(report_journal_id)
+                    );
+                `,
+                "COMPLETION_PHASE_DETAILS": `
+                    CREATE TABLE COMPLETION_PHASE_DETAILS (
+                        completion_phase_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        well_phase_id INTEGER,
+                        report_journal_id INTEGER,
+                        plan_cost REAL,
+                        actual_cost REAL,
+                        FOREIGN KEY (well_phase_id) REFERENCES WELL_PHASE(well_phase_id),
+                        FOREIGN KEY (report_journal_id) REFERENCES REPORT_JOURNAL(report_journal_id)
+                    );
+                `
+            };
+            
+            const order = ["RIG", "WELL", "PHASE", "WELL_PHASE", "REPORT_JOURNAL", "DRILLING_PHASE_DETAILS", "COMPLETION_PHASE_DETAILS"];
+            
+            for (const table of order) {
+                sqlDb.run(schemas[table]);
+                
+                const rows = dbData[table] || [];
+                if (rows.length === 0) continue;
+                
+                const columns = Object.keys(rows[0]);
+                const colNames = columns.join(", ");
+                const placeholders = columns.map(() => "?").join(", ");
+                const insertStmt = `INSERT INTO ${table} (${colNames}) VALUES (${placeholders});`;
+                
+                for (const row of rows) {
+                    const values = columns.map(col => row[col]);
+                    sqlDb.run(insertStmt, values);
+                }
+            }
+        }
+
+        // Page navigation tabs
+        function switchTab(tabId) {
+            // Remove active classes
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll('.page-panel').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Add active class to selected elements
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            // Scroll page back to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+
+        // Live Challenge details database
+        const PRACTICAL_TASKS = {
+            1: {
+                title: "Task 1: The Comprehensive Cost Variance Report",
+                difficulty: "easy",
+                columns: ["well_name", "rig_name", "total_plan_cost", "total_actual_cost", "budget_overrun"],
+                desc: "Write a query to find all wells that have exceeded their total plan budget for drilling. Join WELL, RIG, WELL_PHASE, and DRILLING_PHASE_DETAILS. Group by well name and rig name. Sum their plan cost and actual cost (using COALESCE to default actual cost to plan cost if actual is NULL), calculate the overrun (total_actual_cost minus total_plan_cost, labeled as budget_overrun), exclude dummy well phase data (well_phase_id = 999), and use HAVING to show only wells where the total actual cost is greater than the total plan cost. Order by budget_overrun in descending order.",
+                referenceSQL: `
+                    SELECT w.well_name,
+                           r.rig_name,
+                           ROUND(SUM(dpd.plan_cost), 2) AS total_plan_cost,
+                           ROUND(SUM(COALESCE(dpd.actual_cost, dpd.plan_cost)), 2) AS total_actual_cost,
+                           ROUND(SUM(COALESCE(dpd.actual_cost, dpd.plan_cost)) - SUM(dpd.plan_cost), 2) AS budget_overrun
+                    FROM WELL w
+                    JOIN RIG r ON w.rig_id = r.rig_id
+                    JOIN WELL_PHASE wp ON w.well_id = wp.well_id
+                    JOIN DRILLING_PHASE_DETAILS dpd ON wp.well_phase_id = dpd.well_phase_id
+                    WHERE wp.well_phase_id != 999
+                    GROUP BY w.well_name, r.rig_name
+                    HAVING total_actual_cost > total_plan_cost
+                    ORDER BY budget_overrun DESC;
+                `
+            },
+            2: {
+                title: "Task 2: Consolidated Phase Expenditure Dashboard",
+                difficulty: "medium",
+                columns: ["well_name", "phase_name", "total_plan_cost", "total_actual_cost", "variance"],
+                desc: "Consolidate both drilling and completion cost records to show total plan vs. actual spending per well and phase. Write a query using a Common Table Expression (CTE) to combine well_phase_id, plan_cost, and actual_cost from DRILLING_PHASE_DETAILS (excluding well_phase_id = 999) and COMPLETION_PHASE_DETAILS (excluding well_phase_id = 888) using UNION ALL. Join this CTE with WELL_PHASE, WELL, and PHASE. Group the details by well name and phase name. Calculate total plan, total actual (using COALESCE to fall back to plan cost if actual is NULL), and variance (actual minus plan). Sort alphabetically by well name and then by phase name.",
+                referenceSQL: `
+                    WITH CombinedCosts AS (
+                        SELECT well_phase_id, plan_cost, actual_cost
+                        FROM DRILLING_PHASE_DETAILS
+                        WHERE well_phase_id != 999
+                        
+                        UNION ALL
+                        
+                        SELECT well_phase_id, plan_cost, actual_cost
+                        FROM COMPLETION_PHASE_DETAILS
+                        WHERE well_phase_id != 888
+                    )
+                    SELECT w.well_name,
+                           p.phase_name,
+                           ROUND(SUM(cc.plan_cost), 2) AS total_plan_cost,
+                           ROUND(SUM(COALESCE(cc.actual_cost, cc.plan_cost)), 2) AS total_actual_cost,
+                           ROUND(SUM(COALESCE(cc.actual_cost, cc.plan_cost) - cc.plan_cost), 2) AS variance
+                    FROM CombinedCosts cc
+                    JOIN WELL_PHASE wp ON cc.well_phase_id = wp.well_phase_id
+                    JOIN WELL w ON wp.well_id = w.well_id
+                    JOIN PHASE p ON wp.phase_id = p.phase_id
+                    GROUP BY w.well_name, p.phase_name
+                    ORDER BY w.well_name ASC, p.phase_name ASC;
+                `
+            },
+            3: {
+                title: "Task 3: Rig Performance Ranking",
+                difficulty: "hard",
+                columns: ["rig_name", "total_plan_cost", "total_actual_cost", "total_variance", "rig_rank"],
+                desc: "Rank the rigs based on their cost efficiency (variance between total plan cost and total actual cost) across all drilling and completion operations. Combine costs from DRILLING_PHASE_DETAILS (excluding 999) and COMPLETION_PHASE_DETAILS (excluding 888) using UNION ALL. Group plan cost, actual cost (resolved with plan if NULL), and variance per rig. Rank the rigs using DENSE_RANK() OVER (ORDER BY total_variance ASC) so that the rig with the lowest variance (or highest cost savings) is ranked 1st.",
+                referenceSQL: `
+                    WITH CombinedCosts AS (
+                        SELECT well_phase_id, plan_cost, actual_cost FROM DRILLING_PHASE_DETAILS WHERE well_phase_id != 999
+                        UNION ALL
+                        SELECT well_phase_id, plan_cost, actual_cost FROM COMPLETION_PHASE_DETAILS WHERE well_phase_id != 888
+                    ),
+                    RigVariance AS (
+                        SELECT r.rig_name,
+                               SUM(cc.plan_cost) AS total_plan,
+                               SUM(COALESCE(cc.actual_cost, cc.plan_cost)) AS total_actual,
+                               SUM(COALESCE(cc.actual_cost, cc.plan_cost) - cc.plan_cost) AS total_variance
+                        FROM CombinedCosts cc
+                        JOIN WELL_PHASE wp ON cc.well_phase_id = wp.well_phase_id
+                        JOIN WELL w ON wp.well_id = w.well_id
+                        JOIN RIG r ON w.rig_id = r.rig_id
+                        GROUP BY r.rig_name
+                    )
+                    SELECT rig_name,
+                           ROUND(total_plan, 2) AS total_plan_cost,
+                           ROUND(total_actual, 2) AS total_actual_cost,
+                           ROUND(total_variance, 2) AS total_variance,
+                           DENSE_RANK() OVER (ORDER BY total_variance ASC) AS rig_rank
+                    FROM RigVariance;
+                `
+            },
+            4: {
+                title: "Task 4: Cash Flow & Cumulative Well Spending",
+                difficulty: "hard",
+                columns: ["well_name", "report_datetime", "resolved_cost", "cumulative_well_cost"],
+                desc: "Generate a report tracking cumulative operational expenditures over time for each well. Join DRILLING_PHASE_DETAILS (excluding 999), WELL_PHASE, WELL, and REPORT_JOURNAL. Project the well name, report datetime, and resolved actual cost (using COALESCE to default actual cost to plan cost if actual is NULL). Calculate the running total of this cost per well, ordered chronologically by the report datetime. Order the final results by well name and report datetime ascending.",
+                referenceSQL: `
+                    SELECT w.well_name,
+                           rj.report_datetime,
+                           COALESCE(dpd.actual_cost, dpd.plan_cost) AS resolved_cost,
+                           ROUND(SUM(COALESCE(dpd.actual_cost, dpd.plan_cost)) OVER (
+                               PARTITION BY w.well_id
+                               ORDER BY rj.report_datetime ASC
+                               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                           ), 2) AS cumulative_well_cost
+                    FROM DRILLING_PHASE_DETAILS dpd
+                    JOIN WELL_PHASE wp ON dpd.well_phase_id = wp.well_phase_id
+                    JOIN WELL w ON wp.well_id = w.well_id
+                    JOIN REPORT_JOURNAL rj ON dpd.report_journal_id = rj.report_journal_id
+                    WHERE wp.well_phase_id != 999
+                    ORDER BY w.well_name ASC, rj.report_datetime ASC;
+                `
+            }
+        };
+
+        // Practical Challenges State
+        let currentPracticalTaskId = 1;
+        let practicalTaskProgress = { 1: false, 2: false, 3: false, 4: false };
+
+        // Select and load a coding task
+        function selectPracticalTask(taskId) {
+            // Save current code draft
+            if (currentPracticalTaskId && document.getElementById('sql-editor')) {
+                const currentSQL = document.getElementById('sql-editor').value;
+                localStorage.setItem(`sql_journey_task_${currentPracticalTaskId}`, currentSQL);
+            }
+
+            currentPracticalTaskId = taskId;
+
+            document.querySelectorAll('.task-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById(`task-item-${taskId}`).classList.add('active');
+
+            const task = PRACTICAL_TASKS[taskId];
+            document.getElementById('current-task-title').innerText = task.title;
+            document.getElementById('current-task-desc').innerText = task.desc;
+
+            const colsList = document.getElementById('current-task-columns');
+            colsList.innerHTML = '';
+            task.columns.forEach(col => {
+                const li = document.createElement('li');
+                li.innerText = col;
+                colsList.appendChild(li);
+            });
+
+            document.getElementById('editor-feedback-box').style.display = 'none';
+            const outputContainer = document.getElementById('query-output-container');
+
+            const savedSQL = localStorage.getItem(`sql_journey_task_${taskId}`);
+            document.getElementById('sql-editor').value = savedSQL || "";
+
+            if (savedSQL) {
+                outputContainer.innerHTML = '<p class="output-placeholder">Query loaded from drafts. Click "Run" or "Validate" to check.</p>';
+            } else {
+                outputContainer.innerHTML = '<p class="output-placeholder">Run your query to inspect the output table here...</p>';
+            }
+        }
+
+        // Reset the editor area
+        function resetEditorQuery() {
+            document.getElementById('sql-editor').value = '';
+            localStorage.removeItem(`sql_journey_task_${currentPracticalTaskId}`);
+            document.getElementById('query-output-container').innerHTML = '<p class="output-placeholder">Code reset. Write a new query and click "Run".</p>';
+            document.getElementById('editor-feedback-box').style.display = 'none';
+        }
+
+        // Run query (Sandbox Mode)
+        function runEditorQuery() {
+            const userSQL = document.getElementById('sql-editor').value.trim();
+            const outputContainer = document.getElementById('query-output-container');
+            const feedbackBox = document.getElementById('editor-feedback-box');
+            
+            feedbackBox.style.display = 'none';
+            outputContainer.innerHTML = '';
+            
+            if (!userSQL) {
+                outputContainer.innerHTML = '<div class="output-error-msg">Error: Please enter a query first.</div>';
+                return;
+            }
+            
+            if (!isSqlDbReady || !sqlDb) {
+                outputContainer.innerHTML = '<div class="output-error-msg">Error: Database engine is not ready. Please wait...</div>';
+                return;
+            }
+            
+            try {
+                const result = sqlDb.exec(userSQL);
+                
+                if (result.length === 0) {
+                    outputContainer.innerHTML = '<div class="output-error-msg" style="color: #60a5fa; background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.2);">Query executed successfully, but returned 0 rows.</div>';
+                    return;
+                }
+                
+                renderSqlResultTable(outputContainer, result[0].columns, result[0].values);
+            } catch (err) {
+                outputContainer.innerHTML = `<div class="output-error-msg">${err.message}</div>`;
+            }
+        }
+
+        // Submit query (Verification Mode)
+        function submitEditorQuery() {
+            const userSQL = document.getElementById('sql-editor').value.trim();
+            const feedbackBox = document.getElementById('editor-feedback-box');
+            const feedbackTitle = document.getElementById('editor-feedback-title');
+            const feedbackText = document.getElementById('editor-feedback-text');
+            const outputContainer = document.getElementById('query-output-container');
+            
+            feedbackBox.style.display = 'none';
+            
+            if (!userSQL) {
+                outputContainer.innerHTML = '<div class="output-error-msg">Error: Please enter a query first.</div>';
+                return;
+            }
+            
+            if (!isSqlDbReady || !sqlDb) {
+                outputContainer.innerHTML = '<div class="output-error-msg">Error: Database engine is not ready.</div>';
+                return;
+            }
+            
+            localStorage.setItem(`sql_journey_task_${currentPracticalTaskId}`, userSQL);
+            
+            try {
+                const studentResult = sqlDb.exec(userSQL);
+                
+                const refSQL = PRACTICAL_TASKS[currentPracticalTaskId].referenceSQL;
+                const refResult = sqlDb.exec(refSQL);
+                
+                if (studentResult.length === 0) {
+                    throw new Error("Your query returned no rows. It cannot be verified.");
+                }
+                
+                renderSqlResultTable(outputContainer, studentResult[0].columns, studentResult[0].values);
+                
+                const validation = validateResults(studentResult[0], refResult[0]);
+                
+                feedbackBox.style.display = 'block';
+                if (validation.success) {
+                    feedbackBox.className = "quiz-feedback show correct";
+                    feedbackTitle.innerHTML = '<i class="fa-solid fa-circle-check"></i> Task Cleared!';
+                    feedbackText.innerText = "Congratulations! Your query results match the expected output perfectly.";
+                    
+                    markTaskPassed(currentPracticalTaskId);
+                } else {
+                    feedbackBox.className = "quiz-feedback show incorrect";
+                    feedbackTitle.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Validation Failed';
+                    feedbackText.innerText = validation.error;
+                }
+            } catch (err) {
+                feedbackBox.style.display = 'block';
+                feedbackBox.className = "quiz-feedback show incorrect";
+                feedbackTitle.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Execution Error';
+                feedbackText.innerText = err.message;
+            }
+        }
+
+        // Compare student output with reference output
+        function validateResults(student, ref) {
+            if (student.columns.length !== ref.columns.length) {
+                return { success: false, error: `Column count mismatch. Expected ${ref.columns.length} columns, but your query returned ${student.columns.length} columns.` };
+            }
+            
+            const studentCols = student.columns.map(c => c.toLowerCase());
+            const refCols = ref.columns.map(c => c.toLowerCase());
+            for (let i = 0; i < refCols.length; i++) {
+                if (studentCols[i] !== refCols[i]) {
+                    return { success: false, error: `Column headers mismatch at position ${i+1}. Expected column alias '${ref.columns[i]}', but got '${student.columns[i]}'.` };
+                }
+            }
+            
+            if (student.values.length !== ref.values.length) {
+                return { success: false, error: `Row count mismatch. Expected ${ref.values.length} rows, but your query returned ${student.values.length} rows.` };
+            }
+            
+            for (let i = 0; i < ref.values.length; i++) {
+                const sRow = student.values[i];
+                const rRow = ref.values[i];
+                for (let j = 0; j < refCols.length; j++) {
+                    if (!compareValues(sRow[j], rRow[j])) {
+                        return { 
+                            success: false, 
+                            error: `Data mismatch at row ${i+1}, column '${ref.columns[j]}'. Expected value '${rRow[j] === null ? "NULL" : rRow[j]}', but got '${sRow[j] === null ? "NULL" : sRow[j]}'. Verify your filters, calculations, or sorting order.` 
+                        };
+                    }
+                }
+            }
+            
+            return { success: true };
+        }
+
+        // Safe value comparison helper (handles nulls and floats)
+        function compareValues(v1, v2) {
+            if (v1 === null && v2 === null) return true;
+            if (v1 === null || v2 === null) return false;
+            
+            const n1 = Number(v1);
+            const n2 = Number(v2);
+            if (!isNaN(n1) && !isNaN(n2)) {
+                return Math.abs(n1 - n2) < 0.01;
+            }
+            
+            return String(v1).trim().toLowerCase() === String(v2).trim().toLowerCase();
+        }
+
+        // Mark task as passed
+        function markTaskPassed(taskId) {
+            practicalTaskProgress[taskId] = true;
+            
+            const statusDiv = document.getElementById(`task-status-${taskId}`);
+            statusDiv.className = "task-status passed";
+            statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            
+            const cleared = Object.values(practicalTaskProgress).filter(Boolean).length;
+            document.getElementById('cleared-tasks-count').innerText = `${cleared} / 4`;
+            
+            const pct = (cleared / 4) * 100;
+            document.getElementById('practical-progress-fill').style.width = `${pct}%`;
+            
+            checkCertificateStatus();
+        }
+
+        // Check if certificate criteria met
+        function checkCertificateStatus() {
+            const practicalPassed = Object.values(practicalTaskProgress).every(Boolean);
+            
+            if (practicalPassed) {
+                document.getElementById('certificate-unlocked-card').style.display = 'block';
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date-display').innerText = today.toLocaleDateString('en-US', options);
+                
+                setTimeout(() => {
+                    document.getElementById('certificate-unlocked-card').scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            } else {
+                document.getElementById('certificate-unlocked-card').style.display = 'none';
+            }
+        }
+
+        // Certificate Helper functions
+        function updateCertificateName() {
+            const name = document.getElementById('participant-name-input').value;
+            localStorage.setItem('sql_journey_participant_name', name);
+        }
+        
+        function printCertificate() {
+            const nameInput = document.getElementById('participant-name-input');
+            if (!nameInput.value.trim()) {
+                alert("Please enter your name in the certificate field before printing.");
+                nameInput.focus();
+                return;
+            }
+            window.print();
+        }
+
+        // Render dynamic table from execution results
+        function renderSqlResultTable(container, columns, values) {
+            container.innerHTML = '';
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.style.fontSize = '0.85rem';
+            table.style.textAlign = 'left';
+            
+            let thead = '<thead><tr style="border-bottom: 2px solid var(--border-color); color: white;">';
+            columns.forEach(col => {
+                thead += `<th style="padding: 0.75rem 1rem;">${col}</th>`;
+            });
+            thead += '</tr></thead>';
+            
+            let tbody = '<tbody>';
+            values.forEach(row => {
+                tbody += '<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">';
+                row.forEach((val, idx) => {
+                    const colName = columns[idx].toLowerCase();
+                    let displayVal = val === null ? '<span style="color: var(--color-text-muted); font-style: italic;">NULL</span>' : val;
+                    
+                    if (val !== null && typeof val === 'number') {
+                        if (colName.includes('cost') || colName.includes('variance') || colName.includes('overrun')) {
+                            displayVal = `$${val.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        }
+                    }
+                    
+                    tbody += `<td style="padding: 0.75rem 1rem;">${displayVal}</td>`;
+                });
+                tbody += '</tr>';
+            });
+            tbody += '</tbody>';
+            
+            table.innerHTML = thead + tbody;
+            container.appendChild(table);
+        }
+
+        // Toggle solution panels
+        function toggleSolution(id) {
+            const panel = document.getElementById(id);
+            const btn = panel.previousElementSibling;
+            if (panel.classList.contains('active')) {
+                panel.classList.remove('active');
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i> Show Solution SQL';
+            } else {
+                panel.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Hide Solution SQL';
+            }
+        }
+
+
+
+        // --- DATABASE EXPLORER SYSTEM ---
+        const dbData = {
+    "RIG": [
+        {
+            "rig_id": 1,
+            "rig_name": "Ocean Valor"
+        },
+        {
+            "rig_id": 2,
+            "rig_name": "Deepwater Horizon"
+        },
+        {
+            "rig_id": 3,
+            "rig_name": "Deepsea Aberdeen"
+        },
+        {
+            "rig_id": 4,
+            "rig_name": "Valaris DS-12"
+        },
+        {
+            "rig_id": 5,
+            "rig_name": "Transocean Barents"
+        }
+    ],
+    "WELL": [
+        {
+            "well_id": 1,
+            "rig_id": 1,
+            "well_name": "Alpha-1"
+        },
+        {
+            "well_id": 2,
+            "rig_id": 1,
+            "well_name": "Alpha-2"
+        },
+        {
+            "well_id": 3,
+            "rig_id": 3,
+            "well_name": "Bravo-1"
+        },
+        {
+            "well_id": 4,
+            "rig_id": 2,
+            "well_name": "Charlie-1"
+        },
+        {
+            "well_id": 5,
+            "rig_id": 2,
+            "well_name": "Delta-X"
+        },
+        {
+            "well_id": 6,
+            "rig_id": 2,
+            "well_name": "Echo-99"
+        },
+        {
+            "well_id": 7,
+            "rig_id": 1,
+            "well_name": "Ghost-1"
+        }
+    ],
+    "PHASE": [
+        {
+            "phase_id": 1,
+            "phase_name": "Exploration"
+        },
+        {
+            "phase_id": 2,
+            "phase_name": "Development"
+        },
+        {
+            "phase_id": 3,
+            "phase_name": "Intervention"
+        },
+        {
+            "phase_id": 4,
+            "phase_name": "Workover"
+        },
+        {
+            "phase_id": 5,
+            "phase_name": "Plug and abandonment"
+        }
+    ],
+    "WELL_PHASE": [
+        {
+            "well_phase_id": 1,
+            "well_id": 1,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 2,
+            "well_id": 1,
+            "phase_id": 2
+        },
+        {
+            "well_phase_id": 3,
+            "well_id": 1,
+            "phase_id": 3
+        },
+        {
+            "well_phase_id": 4,
+            "well_id": 1,
+            "phase_id": 5
+        },
+        {
+            "well_phase_id": 5,
+            "well_id": 2,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 6,
+            "well_id": 2,
+            "phase_id": 5
+        },
+        {
+            "well_phase_id": 7,
+            "well_id": 3,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 8,
+            "well_id": 3,
+            "phase_id": 2
+        },
+        {
+            "well_phase_id": 9,
+            "well_id": 4,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 10,
+            "well_id": 4,
+            "phase_id": 2
+        },
+        {
+            "well_phase_id": 11,
+            "well_id": 4,
+            "phase_id": 4
+        },
+        {
+            "well_phase_id": 12,
+            "well_id": 4,
+            "phase_id": 5
+        },
+        {
+            "well_phase_id": 13,
+            "well_id": 5,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 14,
+            "well_id": 5,
+            "phase_id": 2
+        },
+        {
+            "well_phase_id": 15,
+            "well_id": 5,
+            "phase_id": 3
+        },
+        {
+            "well_phase_id": 16,
+            "well_id": 5,
+            "phase_id": 4
+        },
+        {
+            "well_phase_id": 17,
+            "well_id": 6,
+            "phase_id": 1
+        },
+        {
+            "well_phase_id": 18,
+            "well_id": 6,
+            "phase_id": 2
+        },
+        {
+            "well_phase_id": 19,
+            "well_id": 6,
+            "phase_id": 3
+        }
+    ],
+    "REPORT_JOURNAL": [
+        {
+            "report_journal_id": 1,
+            "well_phase_id": 1,
+            "report_datetime": "2025-04-08 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 2,
+            "well_phase_id": 1,
+            "report_datetime": "2025-04-09 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 3,
+            "well_phase_id": 2,
+            "report_datetime": "2025-03-19 00:00:00",
+            "report_type": "NOOC"
+        },
+        {
+            "report_journal_id": 4,
+            "well_phase_id": 2,
+            "report_datetime": "2025-03-20 00:00:00",
+            "report_type": "FWC"
+        },
+        {
+            "report_journal_id": 5,
+            "well_phase_id": 3,
+            "report_datetime": "2025-02-18 00:00:00",
+            "report_type": "Int Report 1"
+        },
+        {
+            "report_journal_id": 6,
+            "well_phase_id": 3,
+            "report_datetime": "2025-02-19 00:00:00",
+            "report_type": "Int Report 2"
+        },
+        {
+            "report_journal_id": 7,
+            "well_phase_id": 4,
+            "report_datetime": "2025-02-16 00:00:00",
+            "report_type": "P&A Report 1"
+        },
+        {
+            "report_journal_id": 8,
+            "well_phase_id": 4,
+            "report_datetime": "2025-02-17 00:00:00",
+            "report_type": "P&A Report 2"
+        },
+        {
+            "report_journal_id": 9,
+            "well_phase_id": 5,
+            "report_datetime": "2025-02-07 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 10,
+            "well_phase_id": 5,
+            "report_datetime": "2025-02-08 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 11,
+            "well_phase_id": 6,
+            "report_datetime": "2025-02-28 00:00:00",
+            "report_type": "P&A Report 1"
+        },
+        {
+            "report_journal_id": 12,
+            "well_phase_id": 6,
+            "report_datetime": "2025-03-01 00:00:00",
+            "report_type": "P&A Report 2"
+        },
+        {
+            "report_journal_id": 13,
+            "well_phase_id": 7,
+            "report_datetime": "2025-02-04 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 14,
+            "well_phase_id": 7,
+            "report_datetime": "2025-02-05 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 15,
+            "well_phase_id": 8,
+            "report_datetime": "2025-03-10 00:00:00",
+            "report_type": "NOOC"
+        },
+        {
+            "report_journal_id": 16,
+            "well_phase_id": 8,
+            "report_datetime": "2025-03-11 00:00:00",
+            "report_type": "FWC"
+        },
+        {
+            "report_journal_id": 17,
+            "well_phase_id": 9,
+            "report_datetime": "2025-03-23 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 18,
+            "well_phase_id": 9,
+            "report_datetime": "2025-03-24 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 19,
+            "well_phase_id": 10,
+            "report_datetime": "2025-01-08 00:00:00",
+            "report_type": "NOOC"
+        },
+        {
+            "report_journal_id": 20,
+            "well_phase_id": 10,
+            "report_datetime": "2025-01-09 00:00:00",
+            "report_type": "FWC"
+        },
+        {
+            "report_journal_id": 21,
+            "well_phase_id": 11,
+            "report_datetime": "2025-01-28 00:00:00",
+            "report_type": "Wov Report 1"
+        },
+        {
+            "report_journal_id": 22,
+            "well_phase_id": 11,
+            "report_datetime": "2025-01-29 00:00:00",
+            "report_type": "Wov Report 2"
+        },
+        {
+            "report_journal_id": 23,
+            "well_phase_id": 12,
+            "report_datetime": "2025-03-05 00:00:00",
+            "report_type": "P&A Report 1"
+        },
+        {
+            "report_journal_id": 24,
+            "well_phase_id": 12,
+            "report_datetime": "2025-03-06 00:00:00",
+            "report_type": "P&A Report 2"
+        },
+        {
+            "report_journal_id": 25,
+            "well_phase_id": 13,
+            "report_datetime": "2025-02-01 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 26,
+            "well_phase_id": 13,
+            "report_datetime": "2025-02-02 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 27,
+            "well_phase_id": 14,
+            "report_datetime": "2025-03-16 00:00:00",
+            "report_type": "NOOC"
+        },
+        {
+            "report_journal_id": 28,
+            "well_phase_id": 14,
+            "report_datetime": "2025-03-17 00:00:00",
+            "report_type": "FWC"
+        },
+        {
+            "report_journal_id": 29,
+            "well_phase_id": 15,
+            "report_datetime": "2025-01-12 00:00:00",
+            "report_type": "Int Report 1"
+        },
+        {
+            "report_journal_id": 30,
+            "well_phase_id": 15,
+            "report_datetime": "2025-01-13 00:00:00",
+            "report_type": "Int Report 2"
+        },
+        {
+            "report_journal_id": 31,
+            "well_phase_id": 16,
+            "report_datetime": "2025-03-29 00:00:00",
+            "report_type": "Wov Report 1"
+        },
+        {
+            "report_journal_id": 32,
+            "well_phase_id": 16,
+            "report_datetime": "2025-03-30 00:00:00",
+            "report_type": "Wov Report 2"
+        },
+        {
+            "report_journal_id": 33,
+            "well_phase_id": 17,
+            "report_datetime": "2025-03-09 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 34,
+            "well_phase_id": 17,
+            "report_datetime": "2025-03-10 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 35,
+            "well_phase_id": 18,
+            "report_datetime": "2025-01-15 00:00:00",
+            "report_type": "NOOC"
+        },
+        {
+            "report_journal_id": 36,
+            "well_phase_id": 18,
+            "report_datetime": "2025-01-16 00:00:00",
+            "report_type": "FWC"
+        },
+        {
+            "report_journal_id": 37,
+            "well_phase_id": 19,
+            "report_datetime": "2025-01-15 00:00:00",
+            "report_type": "Int Report 1"
+        },
+        {
+            "report_journal_id": 38,
+            "well_phase_id": 19,
+            "report_datetime": "2025-01-16 00:00:00",
+            "report_type": "Int Report 2"
+        },
+        {
+            "report_journal_id": 39,
+            "well_phase_id": 1,
+            "report_datetime": "2025-04-08 00:00:00",
+            "report_type": "NOOP"
+        },
+        {
+            "report_journal_id": 40,
+            "well_phase_id": 1,
+            "report_datetime": "2025-04-09 00:00:00",
+            "report_type": "FWR"
+        },
+        {
+            "report_journal_id": 41,
+            "well_phase_id": 2,
+            "report_datetime": "2025-03-19 00:00:00",
+            "report_type": "NOOC"
+        }
+    ],
+    "DRILLING_PHASE_DETAILS": [
+        {
+            "drilling_phase_id": 1,
+            "well_phase_id": 1,
+            "report_journal_id": 1,
+            "plan_cost": 83659.45,
+            "actual_cost": 70807.09
+        },
+        {
+            "drilling_phase_id": 2,
+            "well_phase_id": 1,
+            "report_journal_id": 2,
+            "plan_cost": 59671.64,
+            "actual_cost": 73023.0
+        },
+        {
+            "drilling_phase_id": 3,
+            "well_phase_id": 5,
+            "report_journal_id": 9,
+            "plan_cost": 148522.15,
+            "actual_cost": null
+        },
+        {
+            "drilling_phase_id": 4,
+            "well_phase_id": 5,
+            "report_journal_id": 10,
+            "plan_cost": 136648.37,
+            "actual_cost": 135290.51
+        },
+        {
+            "drilling_phase_id": 5,
+            "well_phase_id": 7,
+            "report_journal_id": 13,
+            "plan_cost": 120182.03,
+            "actual_cost": null
+        },
+        {
+            "drilling_phase_id": 6,
+            "well_phase_id": 7,
+            "report_journal_id": 14,
+            "plan_cost": 57140.25,
+            "actual_cost": 63853.61
+        },
+        {
+            "drilling_phase_id": 7,
+            "well_phase_id": 9,
+            "report_journal_id": 17,
+            "plan_cost": 118816.2,
+            "actual_cost": 108099.88
+        },
+        {
+            "drilling_phase_id": 8,
+            "well_phase_id": 9,
+            "report_journal_id": 18,
+            "plan_cost": 82428.27,
+            "actual_cost": 97608.0
+        },
+        {
+            "drilling_phase_id": 9,
+            "well_phase_id": 13,
+            "report_journal_id": 25,
+            "plan_cost": 124498.9,
+            "actual_cost": 133150.16
+        },
+        {
+            "drilling_phase_id": 10,
+            "well_phase_id": 13,
+            "report_journal_id": 26,
+            "plan_cost": 124701.38,
+            "actual_cost": 126474.25
+        },
+        {
+            "drilling_phase_id": 11,
+            "well_phase_id": 17,
+            "report_journal_id": 33,
+            "plan_cost": 75141.41,
+            "actual_cost": 80898.21
+        },
+        {
+            "drilling_phase_id": 12,
+            "well_phase_id": 17,
+            "report_journal_id": 34,
+            "plan_cost": 144243.09,
+            "actual_cost": 164457.56
+        },
+        {
+            "drilling_phase_id": 13,
+            "well_phase_id": 999,
+            "report_journal_id": 9999,
+            "plan_cost": 100000.0,
+            "actual_cost": 120000.0
+        }
+    ],
+    "COMPLETION_PHASE_DETAILS": [
+        {
+            "completion_phase_id": 1,
+            "well_phase_id": 2,
+            "report_journal_id": 3,
+            "plan_cost": 76452.09,
+            "actual_cost": 62822.61
+        },
+        {
+            "completion_phase_id": 2,
+            "well_phase_id": 2,
+            "report_journal_id": 4,
+            "plan_cost": 95942.49,
+            "actual_cost": 82742.06
+        },
+        {
+            "completion_phase_id": 3,
+            "well_phase_id": 8,
+            "report_journal_id": 15,
+            "plan_cost": 122912.68,
+            "actual_cost": 108372.26
+        },
+        {
+            "completion_phase_id": 4,
+            "well_phase_id": 8,
+            "report_journal_id": 16,
+            "plan_cost": 87945.54,
+            "actual_cost": 113868.51
+        },
+        {
+            "completion_phase_id": 5,
+            "well_phase_id": 10,
+            "report_journal_id": 19,
+            "plan_cost": 72904.81,
+            "actual_cost": 59493.98
+        },
+        {
+            "completion_phase_id": 6,
+            "well_phase_id": 10,
+            "report_journal_id": 20,
+            "plan_cost": 81545.3,
+            "actual_cost": 76152.75
+        },
+        {
+            "completion_phase_id": 7,
+            "well_phase_id": 14,
+            "report_journal_id": 27,
+            "plan_cost": 89940.05,
+            "actual_cost": 81814.9
+        },
+        {
+            "completion_phase_id": 8,
+            "well_phase_id": 14,
+            "report_journal_id": 28,
+            "plan_cost": 149753.76,
+            "actual_cost": 157954.75
+        },
+        {
+            "completion_phase_id": 9,
+            "well_phase_id": 18,
+            "report_journal_id": 35,
+            "plan_cost": 118171.04,
+            "actual_cost": 126264.0
+        },
+        {
+            "completion_phase_id": 10,
+            "well_phase_id": 18,
+            "report_journal_id": 36,
+            "plan_cost": 76682.52,
+            "actual_cost": 85921.3
+        },
+        {
+            "completion_phase_id": 11,
+            "well_phase_id": 888,
+            "report_journal_id": 8888,
+            "plan_cost": 50000.0,
+            "actual_cost": 55000.0
+        }
+    ]
+};
+
+        // Explorer state
+        let explorerCurrentTable = 'RIG';
+        let explorerCurrentPage = 1;
+        let explorerSearchQuery = '';
+        const explorerPageSize = 10;
+
+        const tableDescriptions = {
+            'RIG': 'List of active offshore and land drilling rigs.',
+            'WELL': 'Oil & Gas wells mapped to their assigned drilling rigs.',
+            'PHASE': 'Static list of phases associated with wells (Drilling, Completion, etc.).',
+            'WELL_PHASE': 'Bridge mapping representing which wells go through which phases.',
+            'REPORT_JOURNAL': 'Daily reports submitted from the active well phase operations.',
+            'DRILLING_PHASE_DETAILS': 'Cost records logged for drilling operations (Phases 1-3).',
+            'COMPLETION_PHASE_DETAILS': 'Cost records logged for completion operations (Phase 4).'
+        };
+
+        function selectExplorerTable(tableName) {
+            explorerCurrentTable = tableName;
+            explorerCurrentPage = 1;
+            explorerSearchQuery = '';
+            document.getElementById('explorer-search').value = '';
+            
+            // Update active button state
+            document.querySelectorAll('#table-tabs-container button').forEach(btn => {
+                if (btn.innerText === tableName) {
+                    btn.classList.add('active-table-tab');
+                } else {
+                    btn.classList.remove('active-table-tab');
+                }
+            });
+
+            // Update title/description
+            document.getElementById('explorer-table-title').innerText = `${tableName} Table`;
+            document.getElementById('explorer-table-desc').innerText = tableDescriptions[tableName];
+
+            renderExplorerGrid();
+        }
+
+        function onExplorerSearch() {
+            explorerSearchQuery = document.getElementById('explorer-search').value.toLowerCase();
+            explorerCurrentPage = 1;
+            renderExplorerGrid();
+        }
+
+        function renderExplorerGrid() {
+            const table = document.getElementById('explorer-table-grid');
+            table.innerHTML = '';
+
+            const rawRows = dbData[explorerCurrentTable] || [];
+            
+            // Filter rows based on search
+            const filteredRows = rawRows.filter(row => {
+                if (!explorerSearchQuery) return true;
+                return Object.values(row).some(val => 
+                    val !== null && String(val).toLowerCase().includes(explorerSearchQuery)
+                );
+            });
+
+            if (filteredRows.length === 0) {
+                table.innerHTML = `<tr><td style="padding: 2rem; text-align: center; color: var(--color-text-muted);">No records found.</td></tr>`;
+                document.getElementById('explorer-pagination-info').innerText = 'Showing 0 of 0 rows';
+                document.getElementById('explorer-prev-btn').disabled = true;
+                document.getElementById('explorer-next-btn').disabled = true;
+                return;
+            }
+
+            // Paginate rows
+            const startIndex = (explorerCurrentPage - 1) * explorerPageSize;
+            const endIndex = Math.min(startIndex + explorerPageSize, filteredRows.length);
+            const paginatedRows = filteredRows.slice(startIndex, endIndex);
+
+            // Generate header columns
+            const cols = Object.keys(filteredRows[0]);
+            
+            let thead = '<thead><tr style="border-bottom: 2px solid var(--border-color); color: white;">';
+            cols.forEach(col => {
+                thead += `<th style="padding: 0.75rem 1rem;">${col}</th>`;
+            });
+            thead += '</tr></thead>';
+            
+            let tbody = '<tbody>';
+            paginatedRows.forEach(row => {
+                tbody += '<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">';
+                cols.forEach(col => {
+                    let val = row[col];
+                    if (val === null) {
+                        tbody += `<td style="padding: 0.75rem 1rem; color: var(--color-text-muted); font-style: italic;">NULL</td>`;
+                    } else {
+                        // Highlight cost styling or primary key styling
+                        if (col.includes('cost') && typeof val === 'number') {
+                            tbody += `<td style="padding: 0.75rem 1rem; font-family: var(--font-mono); color: #a7f3d0;">$${val.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;
+                        } else if (col.includes('_id') || typeof val === 'number') {
+                            tbody += `<td style="padding: 0.75rem 1rem; font-family: var(--font-mono); color: #93c5fd;">${val}</td>`;
+                        } else {
+                            tbody += `<td style="padding: 0.75rem 1rem; color: #e2e8f0;">${val}</td>`;
+                        }
+                    }
+                });
+                tbody += '</tr>';
+            });
+            tbody += '</tbody>';
+
+            table.innerHTML = thead + tbody;
+
+            // Update pagination info
+            document.getElementById('explorer-pagination-info').innerText = `Showing ${startIndex + 1} to ${endIndex} of ${filteredRows.length} rows`;
+            
+            // Toggle pagination buttons
+            document.getElementById('explorer-prev-btn').disabled = (explorerCurrentPage === 1);
+            document.getElementById('explorer-next-btn').disabled = (endIndex >= filteredRows.length);
+        }
+
+        function prevExplorerPage() {
+            if (explorerCurrentPage > 1) {
+                explorerCurrentPage--;
+                renderExplorerGrid();
+            }
+        }
+
+        function nextExplorerPage() {
+            const rawRows = dbData[explorerCurrentTable] || [];
+            const filteredRows = rawRows.filter(row => {
+                if (!explorerSearchQuery) return true;
+                return Object.values(row).some(val => 
+                    val !== null && String(val).toLowerCase().includes(explorerSearchQuery)
+                );
+            });
+            const maxPage = Math.ceil(filteredRows.length / explorerPageSize);
+            if (explorerCurrentPage < maxPage) {
+                explorerCurrentPage++;
+                renderExplorerGrid();
+            }
+        }
+
+        // Initialize explorer, SQLite database, and default coding task on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            selectExplorerTable('RIG');
+            initSqljsDatabase();
+            selectPracticalTask(currentPracticalTaskId);
+            
+            // Restore saved certificate name if any
+            const savedName = localStorage.getItem('sql_journey_participant_name');
+            if (savedName && document.getElementById('participant-name-input')) {
+                document.getElementById('participant-name-input').value = savedName;
+            }
+        });
+    
+    </script>
+</body>
+</html>
