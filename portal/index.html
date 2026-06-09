@@ -237,39 +237,230 @@ erDiagram
 
 
             <!-- ====== PAGE 2: SESSION 1 ====== -->
-            <section id="session1" class="page-panel">
+<section id="session1" class="page-panel">
                 <header class="content-header">
                     <span class="tag">Session 1 • 9:15 AM - 10:45 AM</span>
                     <h2>Data Modelling & SQL Basics</h2>
-                    <p class="subtitle">Primary Keys, Foreign Keys, Normalization & SQL Query Building Blocks</p>
+                    <p class="subtitle">Defining Frameworks, Syntax Dialects, and Foundational Query Building Blocks</p>
                 </header>
 
                 <div class="glass-card">
-                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> Theoretical Concepts</h3>
-                    <p>In database design, tables represent entities. Connections between tables represent business rules.</p>
+                    <h3><i class="fa-solid fa-server" style="color: var(--primary)"></i> 1. Defining SQL & DBMS</h3>
+                    <p>To architect enterprise data layers, we must establish a clear boundary between standard interface patterns and implementation technologies:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 12px;">
+                            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.05rem;"><i class="fa-solid fa-code"></i> Structured Query Language (SQL)</h4>
+                            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 0;">A standardized declarative programming language designed specifically for managing, filtering, updating, and extracting structured relational tabular datasets.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 12px;">
+                            <h4 style="color: var(--secondary); margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.05rem;"><i class="fa-solid fa-cubes"></i> Database Management System (DBMS)</h4>
+                            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 0;">The underlying software platform that governs data storage engine paths, enforces constraint rules, handles concurrency multi-threading, and executes optimization plans.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-gears" style="color: var(--accent)"></i> 2. The Four SQL Command Types</h3>
+                    <p style="margin-bottom: 1.25rem;">SQL commands are segmented into distinct functional families that specify what operational scope a given script runs against:</p>
+                    
+                    <div style="overflow-x: auto; margin-bottom: 0.5rem;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color); color: white;">
+                                    <th style="padding: 0.75rem; width: 10%;">Family</th>
+                                    <th style="padding: 0.75rem; width: 25%;">Scope Purpose</th>
+                                    <th style="padding: 0.75rem; width: 35%;">Core Keywords Included</th>
+                                    <th style="padding: 0.75rem; width: 30%;">Data Analyst Application Context</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">DDL</td>
+                                    <td style="padding: 0.75rem; color: white; font-weight: 500;">Data Definition Language</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #f43f5e; background: none;">CREATE</code>, <code style="color: #f43f5e; background: none;">ALTER</code>, <code style="color: #f43f5e; background: none;">DROP</code>, <code style="color: #f43f5e; background: none;">TRUNCATE</code></td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Used to build, alter, or remove database structural schemas, tables, and constraint bridges.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--secondary);">DML</td>
+                                    <td style="padding: 0.75rem; color: white; font-weight: 500;">Data Manipulation Language</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #34d399; background: none;">INSERT</code>, <code style="color: #34d399; background: none;">UPDATE</code>, <code style="color: #34d399; background: none;">DELETE</code></td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Used to control state changes by inserting fresh observations, updating data, or purging records.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: var(--accent);">DQL</td>
+                                    <td style="padding: 0.75rem; color: white; font-weight: 500;">Data Query Language</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #60a5fa; background: none;">SELECT</code></td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Used to extract target attributes and run multi-table aggregations. The core focus of analysts.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 700; color: #a78bfa;">DCL</td>
+                                    <td style="padding: 0.75rem; color: white; font-weight: 500;">Data Control Language</td>
+                                    <td style="padding: 0.75rem;"><code style="color: #c084fc; background: none;">GRANT</code>, <code style="color: #c084fc; background: none;">REVOKE</code></td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Used to manage administrative permissions, access levels, and security configurations on objects.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-globe" style="color: var(--secondary)"></i> 3. Relational SQL Dialects</h3>
+                    <p style="margin-bottom: 1.25rem;">While ANSI SQL forms the shared core standard, different database platforms utilize unique functional accents, optimizations, and syntax characteristics:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 0.5rem;">
+                        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center;">
+                            <h4 style="margin: 0 0 0.25rem 0; font-family: var(--font-heading); color: #60a5fa; font-size: 1rem;">PostgreSQL</h4>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Enterprise Open-Source</span>
+                            <p style="font-size: 0.8rem; margin: 0.5rem 0 0 0; line-height: 1.4; color: var(--color-text-secondary);">Renowned for strict constraint enforcement, JSON data compliance, and extensive window analytical syntax options.</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center;">
+                            <h4 style="margin: 0 0 0.25rem 0; font-family: var(--font-heading); color: #fbbf24; font-size: 1rem;">MySQL</h4>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Web Scale Core</span>
+                            <p style="font-size: 0.8rem; margin: 0.5rem 0 0 0; line-height: 1.4; color: var(--color-text-secondary);">The backend layer powering the web. Offers optimized query speeds for write-heavy data landing frames.</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center;">
+                            <h4 style="margin: 0 0 0.25rem 0; font-family: var(--font-heading); color: #38bdf8; font-size: 1rem;">T-SQL (MSSQL)</h4>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Transact-SQL / Corporate</span>
+                            <p style="font-size: 0.8rem; margin: 0.5rem 0 0 0; line-height: 1.4; color: var(--color-text-secondary);">Microsoft's extension dialect. Includes control flow variables, error logging blocks, and advanced window functions.</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center;">
+                            <h4 style="margin: 0 0 0.25rem 0; font-family: var(--font-heading); color: #a78bfa; font-size: 1rem;">SQLite</h4>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Serverless Embedded</span>
+                            <p style="font-size: 0.8rem; margin: 0.5rem 0 0 0; line-height: 1.4; color: var(--color-text-secondary);">A serverless file-backed binary database. Used for local analytics pipelines (and this interactive course workbook).</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center;">
+                            <h4 style="margin: 0 0 0.25rem 0; font-family: var(--font-heading); color: #f87171; font-size: 1rem;">Oracle SQL</h4>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">PL-SQL / Legacy Heavy</span>
+                            <p style="font-size: 0.8rem; margin: 0.5rem 0 0 0; line-height: 1.4; color: var(--color-text-secondary);">The enterprise banking database framework. Uses strong data access validation architectures.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-laptop-code" style="color: var(--primary)"></i> 4. IDE Environments & Integrated Application Pipelines</h3>
+                    <p style="margin-bottom: 1.25rem;">When working out in production, analysts and engineering teams match target environments with highly specific query developer IDEs, integrated closely into programming code bases:</p>
+                    
+                    <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color); color: white;">
+                                    <th style="padding: 0.75rem; width: 25%;">Target IDE Environment</th>
+                                    <th style="padding: 0.75rem; width: 35%;">Optimal Implementation Project Case</th>
+                                    <th style="padding: 0.75rem; width: 40%;">Cross-Language App Integration Context</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 600; color: white;"><i class="fa-solid fa-compass" style="color: #38bdf8;"></i> DBeaver / DataGrip</td>
+                                    <td style="padding: 0.75rem;"><strong>Multi-Platform Agnostic Data Analytics:</strong> Ideal when managing hybrid cloud models combining PostgreSQL, MySQL, and Oracle architectures in a singular environment.</td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Used by analytical data teams to map ERD schemas out prior to embedding SQL scripts directly inside <strong>Python pandas</strong> pipelines or **dbt** (Data Build Tool) nodes.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 600; color: white;"><i class="fa-solid fa-terminal" style="color: #34d399;"></i> VS Code (SQL Extensions)</td>
+                                    <td style="padding: 0.75rem;"><strong>Full-Stack Scripting & Git Pipelines:</strong> Best when queries coexist seamlessly right inside backend engineering structures, or microservices.</td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Enables simultaneous testing of SQL statements and native application layers—such as backend integrations utilizing <strong>Node.js (pg-pool)</strong> or <strong>Python (SQLAlchemy)</strong>.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem; font-weight: 600; color: white;"><i class="fa-solid fa-window-restore" style="color: #fbbf24;"></i> SSMS / pgAdmin</td>
+                                    <td style="padding: 0.75rem;"><strong>Native Administrative Tuning:</strong> Specialized tools tied directly to platform specific database optimization engines (SQL Server / PostgreSQL).</td>
+                                    <td style="padding: 0.75rem; font-size: 0.85rem;">Crucial for viewing internal query execution maps, setting up server cron jobs, and inspecting structural tables for heavy **Enterprise Apps (.NET Framework)**.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: var(--secondary); font-size: 0.95rem; font-family: var(--font-heading);"><i class="fa-brands fa-python"></i> Production Example: Executing SQL Queries Inside Application Code</h4>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">This script shows how real-world developers utilize structural IDEs to validate queries before embedding them natively into external software script frameworks:</p>
+                        <pre style="margin: 0; padding: 1rem; background: #060910; border-radius: 8px; overflow-x: auto;"><code class="language-python">import sqlite3
+import pandas as pd
+
+# Connect to the database engine session
+connection = sqlite3.connect("drilling_data.db")
+
+# Definitive production SQL query verified within developer IDE
+query = """
+    SELECT w.well_name, r.rig_name 
+    FROM WELL w 
+    JOIN RIG r ON w.rig_id = r.rig_id;
+"""
+
+# Extract the database metrics framework into an asynchronous Python Dataframe pipeline
+dataframe = pd.read_sql_query(query, connection)
+print(dataframe.head(5))</code></pre>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-book" style="color: var(--primary)"></i> 5. Relational Normalization & Keys</h3>
+                    <p>In database design, tables represent entities. Connections between tables represent explicit structural constraints.</p>
                     <ul>
-                        <li><strong>Primary Key (PK):</strong> A unique column that identifies each row. Can never be NULL.</li>
-                        <li><strong>Foreign Key (FK):</strong> A column in a table that references a primary key in another table. Enforces referential consistency.</li>
-                        <li><strong>Normalization (1NF, 2NF, 3NF):</strong> Minimizing data duplication by splitting tables logically. 
+                        <li><strong>Primary Key (PK):</strong> A unique structural column that explicitly identifies each row inside a table. Can never accept <code>NULL</code> targets.</li>
+                        <li><strong>Foreign Key (FK):</strong> A tracking attribute in a table that references a primary key index located in an external table, enforcing relational consistency.</li>
+                        <li><strong>Normalization (1NF, 2NF, 3NF):</strong> Minimizing structural data duplication by splitting broad matrices into distinct functional entities:
                             <ul>
-                                <li>1NF: Single atomic values in columns, no duplicate groups.</li>
-                                <li>2NF: 1NF + all non-key columns must fully depend on the PK (eliminates partial dependency).</li>
-                                <li>3NF: 2NF + no columns can depend on other non-key columns (eliminates transitive dependency).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Types of JOINs:</strong>
-                            <ul>
-                                <li><strong>INNER JOIN</strong> (default <code>JOIN</code>): Returns records that have matching values in both tables.</li>
-                                <li><strong>LEFT JOIN:</strong> Returns all records from the left table, and matched records from the right. Unmatched rows return <code>NULL</code>.</li>
-                                <li><strong>RIGHT JOIN:</strong> Returns all records from the right table, and matched records from the left.</li>
-                                <li><strong>FULL OUTER JOIN:</strong> Returns all records when there is a match in either the left or right table.</li>
+                                <li>1NF: Single atomic cell values inside rows, zero repeating column vectors.</li>
+                                <li>2NF: 1NF + elimination of partial key dependencies (all metrics must depend on the complete Primary Key block).</li>
+                                <li>3NF: 2NF + elimination of transitive dependencies (no non-key data attributes can depend on other non-key columns).</li>
                             </ul>
                         </li>
                     </ul>
                 </div>
 
                 <div class="glass-card">
-                    <h3><i class="fa-solid fa-layer-group" style="color: var(--accent)"></i> SQL Query Building Blocks</h3>
+                    <h3><i class="fa-solid fa-circle-nodes" style="color: var(--accent)"></i> 6. Relational Join Frameworks & Map</h3>
+                    <p style="margin-bottom: 1.5rem;">Joins define how distinct relational tables intersect when building unified multi-table query views:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                            <div style="position: relative; width: 140px; height: 90px; margin: 0 auto 0.75rem auto;">
+                                <div style="position: absolute; left: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.05);"></div>
+                                <div style="position: absolute; right: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.05);"></div>
+                                <div style="position: absolute; left: 50px; width: 30px; height: 50px; top: 10px; border-radius: 40% 40% 40% 40%; background: var(--primary); opacity: 0.75; z-index: 2;"></div>
+                            </div>
+                            <h4 style="margin: 0; font-family: var(--font-heading); font-size: 1rem; color: white;">INNER JOIN</h4>
+                            <p style="font-size: 0.8rem; margin: 0.25rem 0 0 0; color: var(--color-text-secondary);">Returns only rows that match keys across both tables.</p>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                            <div style="position: relative; width: 140px; height: 90px; margin: 0 auto 0.75rem auto;">
+                                <div style="position: absolute; left: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--secondary); background: var(--secondary); opacity: 0.7; z-index: 2;"></div>
+                                <div style="position: absolute; right: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--secondary); background: rgba(16, 185, 129, 0.05);"></div>
+                            </div>
+                            <h4 style="margin: 0; font-family: var(--font-heading); font-size: 1rem; color: white;">LEFT JOIN</h4>
+                            <p style="font-size: 0.8rem; margin: 0.25rem 0 0 0; color: var(--color-text-secondary);">Returns all Left records, filling missing right inputs with <code>NULL</code>.</p>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                            <div style="position: relative; width: 140px; height: 90px; margin: 0 auto 0.75rem auto;">
+                                <div style="position: absolute; left: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent); background: rgba(139, 92, 246, 0.05);"></div>
+                                <div style="position: absolute; right: 10px; width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent); background: var(--accent); opacity: 0.7; z-index: 2;"></div>
+                            </div>
+                            <h4 style="margin: 0; font-family: var(--font-heading); font-size: 1rem; color: white;">RIGHT JOIN</h4>
+                            <p style="font-size: 0.8rem; margin: 0.25rem 0 0 0; color: var(--color-text-secondary);">Returns all Right records, filling missing left inputs with <code>NULL</code>.</p>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                            <div style="position: relative; width: 140px; height: 90px; margin: 0 auto 0.75rem auto;">
+                                <div style="position: absolute; left: 10px; width: 70px; height: 70px; border-radius: 50%; background: #f43f5e; opacity: 0.5;"></div>
+                                <div style="position: absolute; right: 10px; width: 70px; height: 70px; border-radius: 50%; background: #f43f5e; opacity: 0.5;"></div>
+                            </div>
+                            <h4 style="margin: 0; font-family: var(--font-heading); font-size: 1rem; color: white;">FULL OUTER JOIN</h4>
+                            <p style="font-size: 0.8rem; margin: 0.25rem 0 0 0; color: var(--color-text-secondary);">Combines all tables, keeping rows regardless of unmatched key paths.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert note" style="margin-top: 1.5rem; border-left: 4px solid var(--primary); background: rgba(59, 130, 246, 0.04);">
+                        <div class="alert-title" style="color: white;"><i class="fa-solid fa-image"></i> Trainer Interactive Resource Node</div>
+                        <div class="alert-content" style="font-size: 0.875rem; color: var(--color-text-secondary);">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-layer-group" style="color: var(--accent)"></i> 7. SQL Query Building Blocks</h3>
                     <p>Relational databases are queried using structured clauses. Understanding their logical execution order is key to writing bug-free SQL:</p>
                     
                     <div style="overflow-x: auto; margin-bottom: 1.5rem;">
@@ -317,165 +508,140 @@ erDiagram
                         </table>
                     </div>
 
+
                     <h4 style="margin-top: 2rem; margin-bottom: 0.75rem; color: white; font-size: 1.1rem; font-family: var(--font-heading); font-weight: 700;">Query Examples for Reference</h4>
-                    
                     <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
-                        <!-- Example 1 -->
                         <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
                             <summary style="cursor: pointer; font-weight: 600; color: var(--primary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                 <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-filter"></i> Example 1: Filtering & Sorting (SELECT, WHERE, ORDER BY)</span>
                                 <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
                             </summary>
-                            
                             <div style="margin-top: 1rem;">
                                 <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Retrieves well names and assigned rig IDs for wells starting with 'Alpha', sorted alphabetically:</p>
-                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_name, rig_id
-FROM WELL
-WHERE well_name LIKE 'Alpha%'
-ORDER BY well_name ASC;</code></pre>
-                                
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_name, rig_id FROM WELL WHERE well_name LIKE 'Alpha%' ORDER BY well_name ASC;</code></pre>
                                 <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
                                     <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                         <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
                                         <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
                                     </summary>
                                     <div style="margin-top: 0.5rem; overflow-x: auto;">
-                                        <!-- BEGIN_RESULT_S1_E1 -->
-<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
-    <thead>
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
-            <th style="padding: 0.5rem;">well_name</th>
-            <th style="padding: 0.5rem;">rig_id</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">Alpha-1</td>
-            <td style="padding: 0.5rem;">1</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">Alpha-2</td>
-            <td style="padding: 0.5rem;">1</td>
-        </tr>
-    </tbody>
-</table>
-<!-- END_RESULT_S1_E1 -->
+                                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                            <thead>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+                                                    <th style="padding: 0.5rem;">well_name</th>
+                                                    <th style="padding: 0.5rem;">rig_id</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">Alpha-1</td>
+                                                    <td style="padding: 0.5rem;">1</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">Alpha-2</td>
+                                                    <td style="padding: 0.5rem;">1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </details>
                             </div>
                         </details>
 
-                        <!-- Example 2 -->
                         <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
                             <summary style="cursor: pointer; font-weight: 600; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                 <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-link"></i> Example 2: Joining Multiple Tables (SELECT, JOIN & WHERE)</span>
                                 <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
                             </summary>
-                            
                             <div style="margin-top: 1rem;">
                                 <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Links reports to well metadata, filtering exclusively for daily progress logs (showing first 5 rows):</p>
-                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT rj.report_journal_id, w.well_name, rj.report_type
-FROM REPORT_JOURNAL rj
-JOIN WELL_PHASE wp ON rj.well_phase_id = wp.well_phase_id
-JOIN WELL w ON wp.well_id = w.well_id
-WHERE rj.report_type = 'NOOP';</code></pre>
-                                
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT rj.report_journal_id, w.well_name, rj.report_type FROM REPORT_JOURNAL rj JOIN WELL_PHASE wp ON rj.well_phase_id = wp.well_phase_id JOIN WELL w ON wp.well_id = w.well_id WHERE rj.report_type = 'NOOP';</code></pre>
                                 <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
                                     <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                         <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
                                         <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
                                     </summary>
                                     <div style="margin-top: 0.5rem; overflow-x: auto;">
-                                        <!-- BEGIN_RESULT_S1_E2 -->
-<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
-    <thead>
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
-            <th style="padding: 0.5rem;">report_journal_id</th>
-            <th style="padding: 0.5rem;">well_name</th>
-            <th style="padding: 0.5rem;">report_type</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">1</td>
-            <td style="padding: 0.5rem;">Alpha-1</td>
-            <td style="padding: 0.5rem;">NOOP</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">9</td>
-            <td style="padding: 0.5rem;">Alpha-2</td>
-            <td style="padding: 0.5rem;">NOOP</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">13</td>
-            <td style="padding: 0.5rem;">Bravo-1</td>
-            <td style="padding: 0.5rem;">NOOP</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">17</td>
-            <td style="padding: 0.5rem;">Charlie-1</td>
-            <td style="padding: 0.5rem;">NOOP</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">25</td>
-            <td style="padding: 0.5rem;">Delta-X</td>
-            <td style="padding: 0.5rem;">NOOP</td>
-        </tr>
-        <tr>
-            <td colspan="3" style="padding: 0.5rem; text-align: center; color: var(--color-text-muted); font-style: italic;">... and 2 more rows</td>
-        </tr>
-    </tbody>
-</table>
-<!-- END_RESULT_S1_E2 -->
+                                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                            <thead>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+                                                    <th style="padding: 0.5rem;">report_journal_id</th>
+                                                    <th style="padding: 0.5rem;">well_name</th>
+                                                    <th style="padding: 0.5rem;">report_type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">1</td>
+                                                    <td style="padding: 0.5rem;">Alpha-1</td>
+                                                    <td style="padding: 0.5rem;">NOOP</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">9</td>
+                                                    <td style="padding: 0.5rem;">Alpha-2</td>
+                                                    <td style="padding: 0.5rem;">NOOP</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">13</td>
+                                                    <td style="padding: 0.5rem;">Bravo-1</td>
+                                                    <td style="padding: 0.5rem;">NOOP</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">17</td>
+                                                    <td style="padding: 0.5rem;">Charlie-1</td>
+                                                    <td style="padding: 0.5rem;">NOOP</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">25</td>
+                                                    <td style="padding: 0.5rem;">Delta-X</td>
+                                                    <td style="padding: 0.5rem;">NOOP</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" style="padding: 0.5rem; text-align: center; color: var(--color-text-muted); font-style: italic;">... and 2 more rows</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </details>
                             </div>
                         </details>
 
-                        <!-- Example 3 -->
                         <details style="background: rgba(255,255,255,0.015); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
                             <summary style="cursor: pointer; font-weight: 600; color: var(--accent); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                 <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;"><i class="fa-solid fa-calculator"></i> Example 3: Group Aggregation & Filters (SELECT, GROUP BY & HAVING)</span>
                                 <span style="font-size: 0.75rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.2rem 0.6rem; border-radius: 6px; color: white;">Toggle <i class="fa-solid fa-chevron-down"></i></span>
                             </summary>
-                            
                             <div style="margin-top: 1rem;">
                                 <p style="font-size: 0.875rem; margin-bottom: 0.75rem; color: var(--color-text-secondary);">Calculates total actual cost per well phase, displaying only groups exceeding $200,000:</p>
-                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_phase_id, SUM(actual_cost) AS total_actual_cost
-FROM DRILLING_PHASE_DETAILS
-GROUP BY well_phase_id
-HAVING SUM(actual_cost) > 200000;</code></pre>
-                                
+                                <pre style="margin-bottom: 1rem; padding: 1rem; background: #060910;"><code class="language-sql">SELECT well_phase_id, SUM(actual_cost) AS total_actual_cost FROM DRILLING_PHASE_DETAILS GROUP BY well_phase_id HAVING SUM(actual_cost) > 200000;</code></pre>
                                 <details style="border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem;">
                                     <summary style="cursor: pointer; font-size: 0.85rem; color: var(--secondary); outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none;">
                                         <span><i class="fa-solid fa-table"></i> View Query Result Dataset</span>
                                         <span style="font-size: 0.7rem; color: var(--color-text-muted);">Expand <i class="fa-solid fa-chevron-down"></i></span>
                                     </summary>
                                     <div style="margin-top: 0.5rem; overflow-x: auto;">
-                                        <!-- BEGIN_RESULT_S1_E3 -->
-<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
-    <thead>
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
-            <th style="padding: 0.5rem;">well_phase_id</th>
-            <th style="padding: 0.5rem;">total_actual_cost</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">9</td>
-            <td style="padding: 0.5rem;">$205,707.88</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">13</td>
-            <td style="padding: 0.5rem;">$259,624.41</td>
-        </tr>
-        <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
-            <td style="padding: 0.5rem;">17</td>
-            <td style="padding: 0.5rem;">$245,355.77</td>
-        </tr>
-    </tbody>
-</table>
-<!-- END_RESULT_S1_E3 -->
+                                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                            <thead>
+                                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: white;">
+                                                    <th style="padding: 0.5rem;">well_phase_id</th>
+                                                    <th style="padding: 0.5rem;">total_actual_cost</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">9</td>
+                                                    <td style="padding: 0.5rem;">$205,707.88</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">13</td>
+                                                    <td style="padding: 0.5rem;">$259,624.41</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px dashed rgba(255,255,255,0.05);">
+                                                    <td style="padding: 0.5rem;">17</td>
+                                                    <td style="padding: 0.5rem;">$245,355.77</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </details>
                             </div>
@@ -483,6 +649,7 @@ HAVING SUM(actual_cost) > 200000;</code></pre>
                     </div>
                 </div>
 
+                   
                 <div class="glass-card">
                     <h3><i class="fa-solid fa-flask" style="color: var(--secondary)"></i> Hands-on Lab 1</h3>
                     
@@ -557,8 +724,6 @@ ORDER BY well_count DESC;</code></pre>
                     </div>
                 </div>
             </section>
-
-
             <!-- ====== PAGE 3: SESSION 2 ====== -->
 <section id="session2" class="page-panel">
                 <header class="content-header">
